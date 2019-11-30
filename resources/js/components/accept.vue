@@ -1,43 +1,50 @@
 <template>
+
   <div class="accept">
-    <el-image
-      style="width: 100%; position: absolute; height:100%;
-      top: 0;
-      z-index: -1;
-      overflow: hidden"
-      src="/assets/images/lawyers-banner.svg"
-      fit="cover"></el-image>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <el-card class="box-card">
-  <div  class="clearfix">
-    <div >
-      <span id="accepttitle">مرکز وکلا، کارشناسان رسمی و مشاورانِ
-  خانواده قوه قضائیه</span>
-  <a href="index.html" class="back">
-    <svg style="float: left; padding: 15px 0; width: 24px; color: -webkit-link;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 17">
 
-    <g id="back_2" data-name="back 2">
-      <g id="back-2" data-name="back">
-        <polyline class="back-1" points="8.48 1 1 8.48 8.52 16">
-        </polyline>
-        <line class="back-1" x1="1" y1="8.5" x2="25" y2="8.5"></line></g></g>
-      </svg>
-  </a>
-    </div>
-    <div >
+      <div  class="clearfix" >
+        <el-image
+          style="width: 100%; position: absolute;
+          top: 0;
+          right: 0;
+          z-index: -1;
+          overflow: hidden"
+          src="/assets/images/lawyers-banner.svg"
+          fit="fill"></el-image>
+        <div >
+          <span id="accepttitle">مرکز وکلا، کارشناسان رسمی و مشاورانِ
+      خانواده قوه قضائیه</span>
+      <a href="index.html" class="back">
+        <svg style="float: left; padding: 15px 15px; width: 24px; color: -webkit-link;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 17">
 
-      <el-image class="images"
-      style="width: 90px; height: 84px; background-color: #0F1D51;"
-      src="/assets/images/lawyers.png"
-      fit="scale-down"></el-image>
-      <el-image class="images"
-      style="width: 90px; height: 84px; background-color: #F5F5FB;"
-      src="/assets/images/mihan-full-logo.png"
-      fit="scale-down"></el-image>
-    </div>
-  </div>
-  <div >
-    <section class="conditions">
+        <g id="back_2" data-name="back 2">
+          <g id="back-2" data-name="back">
+            <polyline class="back-1" points="8.48 1 1 8.48 8.52 16">
+            </polyline>
+            <line class="back-1" x1="1" y1="8.5" x2="25" y2="8.5"></line></g></g>
+          </svg>
+      </a>
+        </div>
+
+        <div >
+
+          <el-image class="images"
+          style="width: 90px; height: 84px; background-color: #0F1D51;"
+          src="/assets/images/lawyers.png"
+          fit="scale-down"></el-image>
+          <el-image class="images"
+          style="width: 90px; height: 84px; background-color: #F5F5FB;"
+          src="/assets/images/mihan-full-logo.png"
+          fit="scale-down"></el-image>
+        </div>
+      </div>
+
+
+
+      <div >
+    <section class="conditions box-card">
             <p>بیمه تکمیلی درمان مرکز وکلا، کارشناسان رسمی و مشاوران خانواده قوه قضائیه سال 1398
                     (( سلامتی تاجیست بر سر انسانهای سالم که تنها بیماران آن را می بینند ))
                     نکات قابل توجه:
@@ -98,11 +105,13 @@
             <input v-model="checked" id="inputcheck" @click="changeSubmit" type="checkbox">
             <span class="checkmark">
             </span>
-            شرایط قرارداد مطالعه نموده و می پذیرم
+            <p>
+              شرایط قرارداد مطالعه نموده و می پذیرم
+            </p>
 
           </label>
 
-          <a id="register-btn">
+          <a id="register-btn" @click="submit">
             <span>ثبت نام</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 592 96">
 
@@ -115,9 +124,9 @@
         </a>
 
 
-
   </div>
-</el-card>
+
+
   </div>
 </template>
 
@@ -127,10 +136,56 @@ export default {
   data() {
     return {
       checked: false,
+      id: 0,
     };
   },
   methods: {
     changeSubmit(){
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));}
+      let circle1=document.getElementById("circle");
+      let d = document.createElement("div");
+      d.style.width= "40px";
+      d.style.height= "40px";
+      d.style.borderRadius= "50%";
+      d.style.transition="1s";
+      d.style.position= "absolute";
+      d.style.right= "-1%";
+      circle1.appendChild(d);
+
+      let circle2= document.getElementById("circle2");
+      if (circle2.classList.contains("circle")) {
+            d.style.backgroundColor="rgb( 40, 40, 40)";;
+      }
+      else {
+        d.style.backgroundColor= 'rgb(0, 183, 183)';
+      }
+
+      d.style.opacity= "0.2";
+      sleep(1000).then(() => {
+            d.style.opacity= '0';
+       });
+       sleep(2000).then(() => {
+            circle1.removeChild(d);
+        });
+      //  circle1.style.backgroundColor= '#ECF0F8';
+
+        circle2.classList.toggle("circle");
+        circle2.style.transition = "all 3s";
+
+        if (circle2.classList.contains("circle")) {
+              circle2.style.backgroundColor= 'rgba(0, 183, 183, 0.2)';
+        }
+        else {
+          circle2.style.backgroundColor= 'rgba(204, 204, 204, 0.6)';
+        }
+        sleep(5000).then(() => {
+
+              circle2.style.backgroundColor= 'rgba(236, 240, 248, 0.1)';
+         });
+
+           circle1.style.backgroundColor= '#ECF0F8';
+
       let bg = document.getElementById("register-btn");
 
       let c1= document.getElementsByClassName("cls-1");
@@ -140,61 +195,63 @@ export default {
 
       if (this.checked) {
         bg.removeAttribute("href");
-
-        bg.style.boxShadow=  "2px 6px 10px rgba(171, 175, 195, 0.4)";
+        bg.style.cursor="auto";
+        console.log(bg.style.cursor);
+        bg.style.boxShadow=  "0px 18px 21px rgba(171, 175, 195, 0.4)";
           c1[0].style.fill= "#c1c5d7";
           c2[0].style.fill="#d6daea";
           c3[0].style.fill= "#acb0c4";
       } else {
-        let ref="https://web.mihaninsurance.com/?subdomain=judiciarybar#/plans";
+        let ref="http://localhost:8000/form";
         //console.log(bg);
         bg.href= ref;
-        bg.style.boxShadow=  "2px 6px 10px rgba(0, 183, 183, 0.4)";
+        bg.style.cursor="pointer";
+        console.log(bg.style.cursor);
+        bg.style.boxShadow=  "0px 18px 21px rgba(0, 183, 183, 0.4)";
         c1[0].style.fill= "#00b7b7";
         c2[0].style.fill= "#00b2ad";
         c3[0].style.fill= "#00c4bf";
       }
     },
     submit() {
-
-  },
+       let user={};
+       user.Userid= this.id;
+      this.$http.post('/api/log',user)
+        .then(req=>{
+          console.log(req);
+        }, error =>{
+          console.log(error);
+        });
+ },
 },
  mounted:function(){
-   let circle= document.getElementById("circle");
-   let circle2= document.getElementById("circle2");
-   circle.addEventListener("mouseover",mouseOver);
-   circle.addEventListener("mouseout", mouseOut);
-   //circle.onmouseover = function(){circle.classList.add("circle")};
-   function mouseOver() {
-     circle2.classList.add("circle");
-}
-function mouseOut() {
-  circle2.classList.remove("circle");
-}
+   //url ends with id="idNum" if we suppose we are user with id=1; probably we should get it from localstorage
+   this.id= '1';
 
-
-  //   let sp= document.getElementById("checkboxspan");
-  //
-  //  if (ch.checked == true){
-  //    sp.classList.remove("mat-checkbox1");
-  //   sp.classList.add("checkbox2");
-  // } else {
-  //   sp.classList.remove("checkbox2");
-  //   sp.classList.add("mat-checkbox1");
-  // }
-
-
-
-
-
-
-
-},
+   console.log(window.innerWidth);
+   if(window.innerWidth> 430)
+   {
+     let bg = document.getElementById("register-btn");
+     let s= (window.innerWidth- 355*0.9)/2;
+     let str= "";
+     str+= s;
+     str+="px";
+     console.log(str);
+     bg.style.marginRight= str;
+   }else if (window.innerWidth> 370) {
+     let bg = document.getElementById("register-btn");
+     let s= (window.innerWidth- 355*0.9)/4;
+     let str= "";
+     str+= s;
+     str+="px";
+     console.log(str);
+     bg.style.marginRight= str;
+   }
+ }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style >
+
 @font-face {
 	font-family: IRANSans;
 	src: url('/js/font/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),
@@ -203,29 +260,39 @@ function mouseOut() {
 	url('/js/font/IRANSansWeb(FaNum).ttf') format('truetype')
 }
 
+#circle2{
+  display: none;
+}
+
 .check {
   height: 50px;
 }
 #register-btn {
-    width: 100%;
-    height: 64px;
-    margin-top: 8%;
+
+    width: calc(355px*0.9);
+    height: calc(57px*0.9);
+    margin-top: 45%;
+    background-color: #ECF0F8;
     position: relative;
     display: table;
     border: none;
     border-radius: 15px;
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px;
-    box-shadow: 2px 6px 10px rgba(171, 175, 195, 0.4);
-    overflow: hidden;
     outline: none;
 }
 #register-btn svg {
-    height: auto;
+  width: 100%;
+    height: 100%;
     position: absolute;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    box-shadow: 0px 18px 21px rgba(171, 175, 195, 0.4);
+    overflow: hidden;
 }
 #register-btn span {
     position: absolute;
@@ -254,11 +321,11 @@ function mouseOut() {
     top: -6px;
     right: -8px;
     display: block;
-    margin: 0;
+    margin-top: 0;
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
+    background-color: rgba( 0, 0, 0, 0.6);
     box-shadow: none;
     outline: none;
     opacity: 0;
@@ -271,17 +338,19 @@ function mouseOut() {
   z-index: 0;
   display: inline-block;
   position: absolute;
-  height: 37px;
-  width: 37px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   background-color: rgba(204, 204, 204, 0.6);
-  top: -22%;
-  right: 16%;
+  top: -24%;
+  right: 7%;
 }
 /* The container */
 /* Customize the label (the container) */
 .container {
-  margin-top: 15%;
+  margin-right: 10%;
+  margin-top: 25%;
+  margin-bottom: 15%;
   display: block;
   position: relative;
   text-align: center;
@@ -296,26 +365,46 @@ function mouseOut() {
 
 /* Hide the browser's default checkbox */
 .container input {
-
+  -webkit-appearance: none;
+    z-index: -1;
+    display: block;
+    margin: 0;
   position: absolute;
   opacity: 0;
   cursor: pointer;
-  height: 0;
-  width: 0;
+  border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
+    box-shadow: none;
+    outline: none;
+    opacity: 0;
+    transform: scale(1);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.2s;
 }
 
 
 /* Create a custom checkbox */
 .checkmark {
   position: absolute;
+  margin-top: 10px;
   top: 11%;
-  right: 18%;
+  right: 2%;
   height: 14px;
   width: 14px;
   border: solid 2px;
-  border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
+  border-color: rgba( 0, 0, 0, 0.6);
   border-radius: 2px;
 
+}
+.container p{
+  margin: 0;
+  margin-top: 6px;
+  position: absolute;
+  top: 11%;
+  right: 9%;
+  height: 30px;
 }
 
 
@@ -329,6 +418,7 @@ function mouseOut() {
 .container input:checked ~ .checkmark {
   background-color: #2196F3;
 }
+
 
 .circle2 input:checked{
   background-color: #2196F3;
@@ -361,13 +451,11 @@ function mouseOut() {
   width: 100%;
     position: relative;
     margin-bottom: 32px;
-    margin-left: 2px;
-    margin-right: 2px;
     padding-top: 24px;
     background: #FFFFFF;
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
-    border-radius: 20px;
+    border-radius: 35px 35px 0 0;
     -webkit-box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);
     box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);
     font-size: 14px;
@@ -450,27 +538,33 @@ function mouseOut() {
   box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);
 }
 .accept{
-  height: 100%;
-  overflow: hidden;
-  font-family: IRANSans;
-  margin-top: 3%;
+    width: 100vw;
+    position: relative;
+    padding: 20px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-family: IRANSans;
+    direction: rtl;
+    box-sizing: border-box;
   direction: rtl;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
-
+.back{
+  margin: -26px;
+}
 .back-1 {
   cursor: pointer;
   fill:none;stroke:#d6daea;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;
 }
 
   .clearfix{
+    display: block;
+    width: 100vw;
     text-align: center;
   }
 #accepttitle{
-  font-size: 16px;
+  font-size: 14px;
   display: inline-block;
   font-weight: bold;
   text-align: center;
@@ -478,11 +572,13 @@ function mouseOut() {
 }
 
 #background{
-  width: 100%;
+  width: 100vw;
 
 }
-  .box-card {
-    width: 500px;
-    border-radius: 35px;
+
+
+
+  body { margin: 0;
+    background-color: #ECF0F8;
   }
 </style>

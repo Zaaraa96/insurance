@@ -3503,15 +3503,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "accept",
   data: function data() {
     return {
-      checked: false
+      checked: false,
+      id: 0
     };
   },
   methods: {
     changeSubmit: function changeSubmit() {
+      function sleep(ms) {
+        return new Promise(function (resolve) {
+          return setTimeout(resolve, ms);
+        });
+      }
+
+      var circle1 = document.getElementById("circle");
+      var d = document.createElement("div");
+      d.style.width = "40px";
+      d.style.height = "40px";
+      d.style.borderRadius = "50%";
+      d.style.transition = "1s";
+      d.style.position = "absolute";
+      d.style.right = "-1%";
+      circle1.appendChild(d);
+      var circle2 = document.getElementById("circle2");
+
+      if (circle2.classList.contains("circle")) {
+        d.style.backgroundColor = "rgb( 40, 40, 40)";
+        ;
+      } else {
+        d.style.backgroundColor = 'rgb(0, 183, 183)';
+      }
+
+      d.style.opacity = "0.2";
+      sleep(1000).then(function () {
+        d.style.opacity = '0';
+      });
+      sleep(2000).then(function () {
+        circle1.removeChild(d);
+      }); //  circle1.style.backgroundColor= '#ECF0F8';
+
+      circle2.classList.toggle("circle");
+      circle2.style.transition = "all 3s";
+
+      if (circle2.classList.contains("circle")) {
+        circle2.style.backgroundColor = 'rgba(0, 183, 183, 0.2)';
+      } else {
+        circle2.style.backgroundColor = 'rgba(204, 204, 204, 0.6)';
+      }
+
+      sleep(5000).then(function () {
+        circle2.style.backgroundColor = 'rgba(236, 240, 248, 0.1)';
+      });
+      circle1.style.backgroundColor = '#ECF0F8';
       var bg = document.getElementById("register-btn");
       var c1 = document.getElementsByClassName("cls-1");
       var c2 = document.getElementsByClassName("cls-2");
@@ -3519,44 +3574,58 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.checked) {
         bg.removeAttribute("href");
-        bg.style.boxShadow = "2px 6px 10px rgba(171, 175, 195, 0.4)";
+        bg.style.cursor = "auto";
+        console.log(bg.style.cursor);
+        bg.style.boxShadow = "0px 18px 21px rgba(171, 175, 195, 0.4)";
         c1[0].style.fill = "#c1c5d7";
         c2[0].style.fill = "#d6daea";
         c3[0].style.fill = "#acb0c4";
       } else {
-        var ref = "https://web.mihaninsurance.com/?subdomain=judiciarybar#/plans"; //console.log(bg);
+        var ref = "http://localhost:8000/form"; //console.log(bg);
 
         bg.href = ref;
-        bg.style.boxShadow = "2px 6px 10px rgba(0, 183, 183, 0.4)";
+        bg.style.cursor = "pointer";
+        console.log(bg.style.cursor);
+        bg.style.boxShadow = "0px 18px 21px rgba(0, 183, 183, 0.4)";
         c1[0].style.fill = "#00b7b7";
         c2[0].style.fill = "#00b2ad";
         c3[0].style.fill = "#00c4bf";
       }
     },
-    submit: function submit() {}
+    submit: function submit() {
+      var user = {};
+      user.Userid = this.id;
+      this.$http.post('/api/log', user).then(function (req) {
+        console.log(req);
+      }, function (error) {
+        console.log(error);
+      });
+    }
   },
   mounted: function mounted() {
-    var circle = document.getElementById("circle");
-    var circle2 = document.getElementById("circle2");
-    circle.addEventListener("mouseover", mouseOver);
-    circle.addEventListener("mouseout", mouseOut); //circle.onmouseover = function(){circle.classList.add("circle")};
+    //url ends with id="idNum" if we suppose we are user with id=1; probably we should get it from localstorage
+    this.id = '1';
+    console.log(window.innerWidth);
 
-    function mouseOver() {
-      circle2.classList.add("circle");
+    if (window.innerWidth > 430) {
+      var bg = document.getElementById("register-btn");
+      var s = (window.innerWidth - 355 * 0.9) / 2;
+      var str = "";
+      str += s;
+      str += "px";
+      console.log(str);
+      bg.style.marginRight = str;
+    } else if (window.innerWidth > 370) {
+      var _bg = document.getElementById("register-btn");
+
+      var _s = (window.innerWidth - 355 * 0.9) / 4;
+
+      var _str = "";
+      _str += _s;
+      _str += "px";
+      console.log(_str);
+      _bg.style.marginRight = _str;
     }
-
-    function mouseOut() {
-      circle2.classList.remove("circle");
-    } //   let sp= document.getElementById("checkboxspan");
-    //
-    //  if (ch.checked == true){
-    //    sp.classList.remove("mat-checkbox1");
-    //   sp.classList.add("checkbox2");
-    // } else {
-    //   sp.classList.remove("checkbox2");
-    //   sp.classList.add("mat-checkbox1");
-    // }
-
   }
 });
 
@@ -3571,12 +3640,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
-var _fields;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -3617,307 +3680,93 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "insuranceform",
   data: function data() {
     return {
-      fields: {
-        hostname: {
-          prop: "hostname",
-          label: "Host name",
-          show: true,
-          buttonshow: false,
-          multi: false,
-          num: 1,
-          message: " you have to enter a hostname",
-          input: ""
-        },
-        IP: {
-          prop: "IP",
-          label: "IP address",
-          show: true,
-          buttonshow: false,
-          multi: false,
-          num: 1,
-          message: "you have to enter a valid IP address",
-          input: ""
-        },
-        collector: {
-          prop: "collector",
-          label: "collector",
-          show: true,
-          buttonshow: false,
-          multi: false,
-          num: 1,
-          message: "",
-          input: ""
-        },
-        asssetValue: {
-          prop: "assetValue",
-          label: "asset Value",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        icon: {
-          prop: "icon",
-          label: "icon",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "you have to enter a valid url",
-          input: ""
-        },
-        FQND: {
-          prop: "FQND",
-          label: "FQND",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        OS: {
-          prop: "OS",
-          label: "OS",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        OSversion: {
-          prop: "OSversion",
-          label: "OS version",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "you have to enter a number",
-          input: ""
-        },
-        CPU: {
-          prop: "CPU",
-          label: "CPU",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        CPUbrand: {
-          prop: "CPUbrand",
-          label: "CPU brand",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        RAM: {
-          prop: "RAM",
-          label: "RAM",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        RAMbrand: {
-          prop: "RAMbrand",
-          label: "RAM brand",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          message: "",
-          input: ""
-        },
-        MACaddress: {
-          prop: "MACaddress",
-          label: "MAC address",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "you have to enter a valid MAC address",
-          input: ""
-        },
-        location: {
-          prop: "location",
-          label: "location",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        HDD: {
-          prop: "HDD",
-          label: "H.D.D",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        HDDbrand: {
-          prop: "HDDbrand",
-          label: "H.D.D brand",
-          show: false,
-          buttonshow: true,
-          multi: false,
-          num: 0,
-          message: "",
-          input: ""
-        },
-        services: {
-          prop: "services",
-          label: "services",
-          show: false,
-          buttonshow: true,
-          multi: true,
-          num: 0,
-          message: "",
-          input: []
-        },
-        softwares: {
-          prop: "softwares",
-          label: "softwares",
-          show: false,
-          buttonshow: true,
-          multi: true,
-          num: 0,
-          message: "",
-          input: []
-        },
-        usernames: {
-          prop: "usernames",
-          label: "user names",
-          show: false,
-          buttonshow: true,
-          multi: true,
-          num: 0,
-          message: "",
-          input: []
-        },
-        owners: {
-          prop: "owners",
-          label: "owners",
-          show: false,
-          buttonshow: true,
-          multi: true,
-          num: 0,
-          message: "",
-          input: []
-        }
+      ruleForm: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      },
+      rules: {
+        name: [{
+          required: true,
+          message: 'Please input Activity name',
+          trigger: 'blur'
+        }, {
+          min: 3,
+          max: 5,
+          message: 'Length should be 3 to 5',
+          trigger: 'blur'
+        }],
+        region: [{
+          required: true,
+          message: 'Please select Activity zone',
+          trigger: 'change'
+        }],
+        date1: [{
+          type: 'date',
+          required: true,
+          message: 'Please pick a date',
+          trigger: 'change'
+        }],
+        date2: [{
+          type: 'date',
+          required: true,
+          message: 'Please pick a time',
+          trigger: 'change'
+        }],
+        type: [{
+          type: 'array',
+          required: true,
+          message: 'Please select at least one activity type',
+          trigger: 'change'
+        }],
+        resource: [{
+          required: true,
+          message: 'Please select activity resource',
+          trigger: 'change'
+        }],
+        desc: [{
+          required: true,
+          message: 'Please input activity form',
+          trigger: 'blur'
+        }]
       }
     };
   },
-  validations: {
-    fields: (_fields = {
-      hostname: {
-        input: {
-          required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
-        }
-      },
-      IP: {
-        input: {
-          ipAddress: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["ipAddress"]
-        }
-      },
-      icon: {
-        input: {
-          url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["url"]
-        }
-      },
-      OSversion: {
-        input: {
-          numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
-        }
-      },
-      MACaddress: {
-        input: {
-          macAddress: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["macAddress"])(':')
-        }
-      },
-      collector: {
-        input: {}
-      },
-      assetValue: {
-        input: {}
-      }
-    }, _defineProperty(_fields, "icon", {
-      input: {}
-    }), _defineProperty(_fields, "FQND", {
-      input: {}
-    }), _defineProperty(_fields, "OS", {
-      input: {}
-    }), _defineProperty(_fields, "CPU", {
-      input: {}
-    }), _defineProperty(_fields, "CPUbrand", {
-      input: {}
-    }), _defineProperty(_fields, "RAM", {
-      input: {}
-    }), _defineProperty(_fields, "RAMbrand", {
-      input: {}
-    }), _defineProperty(_fields, "location", {
-      input: {}
-    }), _defineProperty(_fields, "HDD", {
-      input: {}
-    }), _defineProperty(_fields, "HDDbrand", {
-      input: {}
-    }), _defineProperty(_fields, "services", {
-      input: {}
-    }), _defineProperty(_fields, "owners", {
-      input: {}
-    }), _defineProperty(_fields, "usernames", {
-      input: {}
-    }), _defineProperty(_fields, "softwares", {
-      input: {}
-    }), _fields)
-  },
   methods: {
-    submit: function submit() {
-      var host = {};
-
-      for (var key in this.fields) {
-        if (this.fields.hasOwnProperty(key)) {
-          var field = this.fields[key];
-          host[field.prop] = field.input;
+    submitForm: function submitForm(formName) {
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
         }
-      }
-
-      console.log(host); // this.$http.post('/api/dashboard',host)
-      // .then(response=>{
-      //   console.log(response);
-      // }, error =>{
-      //   console.log(error);
-      // });
-      //window.location.replace("http://localhost:8000/dashboard");
+      });
     },
-    buttonclick: function buttonclick(index) {
-      this.fields[index].show = true;
-
-      if (this.fields[index].multi) {
-        this.fields[index].num++;
-      } else {
-        this.fields[index].num = 1;
-      }
+    resetForm: function resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    var fl = document.getElementsByClassName("formlist");
+    console.log(fl);
+
+    for (var i = 0; i < fl.length; i++) {//logfl[i]
+    }
+  }
 });
 
 /***/ }),
@@ -5795,7 +5644,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@font-face {\n\tfont-family: IRANSans;\n\tsrc: url('/js/font/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),\n\turl('/js/font/IRANSansWeb(FaNum).woff') format('font-woff'),\n\turl('/js/font/IRANSansWeb(FaNum).woff2') format('woff2'),\n\turl('/js/font/IRANSansWeb(FaNum).ttf') format('truetype')\n}\n.check {\n  height: 50px;\n}\n#register-btn {\n    width: 100%;\n    height: 64px;\n    margin-top: 8%;\n    position: relative;\n    display: table;\n    border: none;\n    border-radius: 15px;\n    -moz-border-radius: 15px;\n    -webkit-border-radius: 15px;\n    box-shadow: 2px 6px 10px rgba(171, 175, 195, 0.4);\n    overflow: hidden;\n    outline: none;\n}\n#register-btn svg {\n    height: auto;\n    position: absolute;\n    right: 0;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%);\n}\n#register-btn span {\n    position: absolute;\n    right: 50%;\n    top: 50%;\n    -webkit-transform: translate(50%,-50%);\n            transform: translate(50%,-50%);\n    z-index: 1;\n    font-family: iransans;\n    font-size: 20px;\n    font-weight: bold;\n    line-height: 8.55px;\n    color: #FFFFFF;\n}\n.cls-2,.cls-3{opacity:0.7;}\n.cls-1{fill:#c1c5d7;}\n.cls-2{fill:#d6daea;}\n.cls-3{fill:#acb0c4;}\n#inputcheck{\n  -webkit-appearance: none;\n    z-index: -1;\n    position: absolute;\n    top: -6px;\n    right: -8px;\n    display: block;\n    margin: 0;\n    border-radius: 50%;\n    width: 40px;\n    height: 40px;\n    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);\n    box-shadow: none;\n    outline: none;\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    pointer-events: none;\n    -webkit-transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s, -webkit-transform 0.2s;\n}\n.circle{\n  z-index: 0;\n  display: inline-block;\n  position: absolute;\n  height: 37px;\n  width: 37px;\n  border-radius: 50%;\n  background-color: rgba(204, 204, 204, 0.6);\n  top: -22%;\n  right: 16%;\n}\n/* The container */\n/* Customize the label (the container) */\n.container {\n  margin-top: 15%;\n  display: block;\n  position: relative;\n  text-align: center;\n  margin-bottom: 12px;\n  cursor: pointer;\n  font-size: 16px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n/* Hide the browser's default checkbox */\n.container input {\n\n  position: absolute;\n  opacity: 0;\n  cursor: pointer;\n  height: 0;\n  width: 0;\n}\n\n\n/* Create a custom checkbox */\n.checkmark {\n  position: absolute;\n  top: 11%;\n  right: 18%;\n  height: 14px;\n  width: 14px;\n  border: solid 2px;\n  border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);\n  border-radius: 2px;\n}\n\n\n/* On mouse-over, add a grey background color */\n.container:hover input ~ .checkmark {\n\n  background-color: #ccc;\n}\n\n/* When the checkbox is checked, add a blue background */\n.container input:checked ~ .checkmark {\n  background-color: #2196F3;\n}\n.circle2 input:checked{\n  background-color: #2196F3;\n}\n\n/* Create the checkmark/indicator (hidden when not checked) */\n.checkmark:after {\n  content: \"\";\n  position: absolute;\n  display: none;\n}\n\n/* Show the checkmark when checked */\n.container input:checked ~ .checkmark:after {\n  display: block;\n}\n\n/* Style the checkmark/indicator */\n.container .checkmark:after {\n  left: 4px;\n  top: 0px;\n  width: 4px;\n  height: 8px;\n  border: solid white;\n  border-width: 0 2px 2px 0;\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n}\n.conditions{\n  width: 100%;\n    position: relative;\n    margin-bottom: 32px;\n    margin-left: 2px;\n    margin-right: 2px;\n    padding-top: 24px;\n    background: #FFFFFF;\n    border-radius: 20px;\n    box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);\n    font-size: 14px;\n    line-height: 24.55px;\n    color: #1B1B41;\n}\n.conditions p {\n    width: 100%;\n    height: 184px;\n    padding: 0px 24px 50px 24px;\n    margin: 0;\n    overflow: auto;\n    box-sizing: border-box;\n    white-space: pre-line;\n}\n.dl {\n    width: 100%;\n    height: 64px;\n    position: absolute;\n    bottom: 0;\n    -webkit-transform: translateY(50%);\n            transform: translateY(50%);\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    background: #FFFFFF;\n    border-radius: 20px;\n    -moz-border-radius: 20px;\n    -webkit-border-radius: 20px;\n    box-shadow: 1px 1px 5px rgba(38, 38, 113, 0.18);\n    text-decoration: none;\n    -webkit-tap-highlight-color: rgba(0,0,0,0);\n    -webkit-tap-highlight-color: transparent;\n}\n.right {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n}\n.right .icon-box {\n    width: 46px;\n    height: 46px;\n    margin: 0 10px;\n    background-color: #ECF0F8;\n    background-image: url(\"/assets/images/pdf.png\");\n    background-size: 60%;\n    background-position: center;\n    background-repeat: no-repeat;\n    border-radius: 16px;\n    -moz-border-radius: 16px;\n    -webkit-border-radius: 16px;\n}\n.right h2 {\n    font-size: 14px;\n    line-height: 8.55px;\n    color: #1B1B41;\n}\n.dl .left {\n      width: 64px;\n      height: 64px;\n      position: relative;\n      border-radius: 40px 65px 65px 40px;\n      -moz-border-radius: 40px 65px 65px 40px;\n      -webkit-border-radius: 40px 65px 65px 40px;\n      background: rgba(230, 57, 70, 0.05);\n      background-image: url(\"/assets/images/dl.png\");\n      background-repeat: no-repeat;\n      background-position: center;\n      background-size: 16px;\n}\n.el-card__header{\n}\n.el-card{\n  padding-top: 1%;\n  border: 1px solid #FFF;\n      border-radius: 35px !important;\n}\n.images{\n  margin: 5% 2.5%;\n  border-radius: 20px;\n  box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);\n}\n.accept{\n  height: 100%;\n  overflow: hidden;\n  font-family: IRANSans;\n  margin-top: 3%;\n  direction: rtl;\n  -webkit-box-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n          align-items: center;\n}\n.back-1 {\n  cursor: pointer;\n  fill:none;stroke:#d6daea;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;\n}\n.clearfix{\n    text-align: center;\n}\n#accepttitle{\n  font-size: 16px;\n  display: inline-block;\n  font-weight: bold;\n  text-align: center;\n  width: 60%;\n}\n#background{\n  width: 100%;\n}\n.box-card {\n    width: 500px;\n    border-radius: 35px;\n}\n", ""]);
+exports.push([module.i, "\n@font-face {\n\tfont-family: IRANSans;\n\tsrc: url('/js/font/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),\n\turl('/js/font/IRANSansWeb(FaNum).woff') format('font-woff'),\n\turl('/js/font/IRANSansWeb(FaNum).woff2') format('woff2'),\n\turl('/js/font/IRANSansWeb(FaNum).ttf') format('truetype')\n}\n#circle2{\n  display: none;\n}\n.check {\n  height: 50px;\n}\n#register-btn {\n\n    width: calc(355px*0.9);\n    height: calc(57px*0.9);\n    margin-top: 45%;\n    background-color: #ECF0F8;\n    position: relative;\n    display: table;\n    border: none;\n    border-radius: 15px;\n    -moz-border-radius: 15px;\n    -webkit-border-radius: 15px;\n    outline: none;\n}\n#register-btn svg {\n  width: 100%;\n    height: 100%;\n    position: absolute;\n    right: 0;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%);\n    border-radius: 15px;\n    -moz-border-radius: 15px;\n    -webkit-border-radius: 15px;\n    box-shadow: 0px 18px 21px rgba(171, 175, 195, 0.4);\n    overflow: hidden;\n}\n#register-btn span {\n    position: absolute;\n    right: 50%;\n    top: 50%;\n    -webkit-transform: translate(50%,-50%);\n            transform: translate(50%,-50%);\n    z-index: 1;\n    font-family: iransans;\n    font-size: 20px;\n    font-weight: bold;\n    line-height: 8.55px;\n    color: #FFFFFF;\n}\n.cls-2,.cls-3{opacity:0.7;}\n.cls-1{fill:#c1c5d7;}\n.cls-2{fill:#d6daea;}\n.cls-3{fill:#acb0c4;}\n#inputcheck{\n  -webkit-appearance: none;\n    z-index: -1;\n    position: absolute;\n    top: -6px;\n    right: -8px;\n    display: block;\n    margin-top: 0;\n    border-radius: 50%;\n    width: 40px;\n    height: 40px;\n    background-color: rgba( 0, 0, 0, 0.6);\n    box-shadow: none;\n    outline: none;\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    pointer-events: none;\n    -webkit-transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s, -webkit-transform 0.2s;\n}\n.circle{\n  z-index: 0;\n  display: inline-block;\n  position: absolute;\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  background-color: rgba(204, 204, 204, 0.6);\n  top: -24%;\n  right: 7%;\n}\n/* The container */\n/* Customize the label (the container) */\n.container {\n  margin-right: 10%;\n  margin-top: 25%;\n  margin-bottom: 15%;\n  display: block;\n  position: relative;\n  text-align: center;\n  margin-bottom: 12px;\n  cursor: pointer;\n  font-size: 16px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n/* Hide the browser's default checkbox */\n.container input {\n  -webkit-appearance: none;\n    z-index: -1;\n    display: block;\n    margin: 0;\n  position: absolute;\n  opacity: 0;\n  cursor: pointer;\n  border-radius: 50%;\n    width: 40px;\n    height: 40px;\n    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);\n    box-shadow: none;\n    outline: none;\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    pointer-events: none;\n    -webkit-transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s, -webkit-transform 0.2s;\n}\n\n\n/* Create a custom checkbox */\n.checkmark {\n  position: absolute;\n  margin-top: 10px;\n  top: 11%;\n  right: 2%;\n  height: 14px;\n  width: 14px;\n  border: solid 2px;\n  border-color: rgba( 0, 0, 0, 0.6);\n  border-radius: 2px;\n}\n.container p{\n  margin: 0;\n  margin-top: 6px;\n  position: absolute;\n  top: 11%;\n  right: 9%;\n  height: 30px;\n}\n\n\n/* On mouse-over, add a grey background color */\n.container:hover input ~ .checkmark {\n\n  background-color: #ccc;\n}\n\n/* When the checkbox is checked, add a blue background */\n.container input:checked ~ .checkmark {\n  background-color: #2196F3;\n}\n.circle2 input:checked{\n  background-color: #2196F3;\n}\n\n/* Create the checkmark/indicator (hidden when not checked) */\n.checkmark:after {\n  content: \"\";\n  position: absolute;\n  display: none;\n}\n\n/* Show the checkmark when checked */\n.container input:checked ~ .checkmark:after {\n  display: block;\n}\n\n/* Style the checkmark/indicator */\n.container .checkmark:after {\n  left: 4px;\n  top: 0px;\n  width: 4px;\n  height: 8px;\n  border: solid white;\n  border-width: 0 2px 2px 0;\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n}\n.conditions{\n  width: 100%;\n    position: relative;\n    margin-bottom: 32px;\n    padding-top: 24px;\n    background: #FFFFFF;\n    border-radius: 35px 35px 0 0;\n    box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);\n    font-size: 14px;\n    line-height: 24.55px;\n    color: #1B1B41;\n}\n.conditions p {\n    width: 100%;\n    height: 184px;\n    padding: 0px 24px 50px 24px;\n    margin: 0;\n    overflow: auto;\n    box-sizing: border-box;\n    white-space: pre-line;\n}\n.dl {\n    width: 100%;\n    height: 64px;\n    position: absolute;\n    bottom: 0;\n    -webkit-transform: translateY(50%);\n            transform: translateY(50%);\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    background: #FFFFFF;\n    border-radius: 20px;\n    -moz-border-radius: 20px;\n    -webkit-border-radius: 20px;\n    box-shadow: 1px 1px 5px rgba(38, 38, 113, 0.18);\n    text-decoration: none;\n    -webkit-tap-highlight-color: rgba(0,0,0,0);\n    -webkit-tap-highlight-color: transparent;\n}\n.right {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n}\n.right .icon-box {\n    width: 46px;\n    height: 46px;\n    margin: 0 10px;\n    background-color: #ECF0F8;\n    background-image: url(\"/assets/images/pdf.png\");\n    background-size: 60%;\n    background-position: center;\n    background-repeat: no-repeat;\n    border-radius: 16px;\n    -moz-border-radius: 16px;\n    -webkit-border-radius: 16px;\n}\n.right h2 {\n    font-size: 14px;\n    line-height: 8.55px;\n    color: #1B1B41;\n}\n.dl .left {\n      width: 64px;\n      height: 64px;\n      position: relative;\n      border-radius: 40px 65px 65px 40px;\n      -moz-border-radius: 40px 65px 65px 40px;\n      -webkit-border-radius: 40px 65px 65px 40px;\n      background: rgba(230, 57, 70, 0.05);\n      background-image: url(\"/assets/images/dl.png\");\n      background-repeat: no-repeat;\n      background-position: center;\n      background-size: 16px;\n}\n.el-card__header{\n}\n.el-card{\n  padding-top: 1%;\n  border: 1px solid #FFF;\n      border-radius: 35px !important;\n}\n.images{\n  margin: 5% 2.5%;\n  border-radius: 20px;\n  box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);\n}\n.accept{\n    width: 100vw;\n    position: relative;\n    padding: 20px 24px 24px 24px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    font-family: IRANSans;\n    direction: rtl;\n    box-sizing: border-box;\n  direction: rtl;\n}\n.back{\n  margin: -26px;\n}\n.back-1 {\n  cursor: pointer;\n  fill:none;stroke:#d6daea;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;\n}\n.clearfix{\n    display: block;\n    width: 100vw;\n    text-align: center;\n}\n#accepttitle{\n  font-size: 14px;\n  display: inline-block;\n  font-weight: bold;\n  text-align: center;\n  width: 60%;\n}\n#background{\n  width: 100vw;\n}\nbody { margin: 0;\n    background-color: #ECF0F8;\n}\n", ""]);
 
 // exports
 
@@ -5814,7 +5663,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.insuranceForm{\n  direction: rtl;\n}\n#form{\n    margin-left: 30%;\n    width: 30%;\n}\n.buttons{\n    margin-left: 5%;\n    margin-bottom: 3%;\n    width: 30%;\n    display: inline-block;\n}\n.invalid{\n    color: red;\n}\n.multigroup{\n    margin-bottom: 0.5%;\n}\n", ""]);
+exports.push([module.i, "\n@font-face {\n\tfont-family: IRANSans;\n\tsrc: url('/js/font/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),\n\turl('/js/font/IRANSansWeb(FaNum).woff') format('font-woff'),\n\turl('/js/font/IRANSansWeb(FaNum).woff2') format('woff2'),\n\turl('/js/font/IRANSansWeb(FaNum).ttf') format('truetype')\n}\n.insuranceForm{\n  direction: rtl;\n  margin: 5%;\n  text-align: center;\n}\n\n", ""]);
 
 // exports
 
@@ -82547,222 +82396,231 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "accept" },
-    [
-      _c("el-image", {
-        staticStyle: {
-          width: "100%",
-          position: "absolute",
-          height: "100%",
-          top: "0",
-          "z-index": "-1",
-          overflow: "hidden"
-        },
-        attrs: { src: "/assets/images/lawyers-banner.svg", fit: "cover" }
-      }),
-      _vm._v(" "),
-      _c("el-card", { staticClass: "box-card" }, [
-        _c("div", { staticClass: "clearfix" }, [
-          _c("div", [
-            _c("span", { attrs: { id: "accepttitle" } }, [
-              _vm._v(
-                "مرکز وکلا، کارشناسان رسمی و مشاورانِ\n  خانواده قوه قضائیه"
-              )
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "back", attrs: { href: "index.html" } }, [
-              _c(
-                "svg",
-                {
-                  staticStyle: {
-                    float: "left",
-                    padding: "15px 0",
-                    width: "24px",
-                    color: "-webkit-link"
-                  },
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    viewBox: "0 0 26 17"
-                  }
-                },
-                [
-                  _c("g", { attrs: { id: "back_2", "data-name": "back 2" } }, [
-                    _c("g", { attrs: { id: "back-2", "data-name": "back" } }, [
-                      _c("polyline", {
-                        staticClass: "back-1",
-                        attrs: { points: "8.48 1 1 8.48 8.52 16" }
-                      }),
-                      _vm._v(" "),
-                      _c("line", {
-                        staticClass: "back-1",
-                        attrs: { x1: "1", y1: "8.5", x2: "25", y2: "8.5" }
-                      })
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            [
-              _c("el-image", {
-                staticClass: "images",
-                staticStyle: {
-                  width: "90px",
-                  height: "84px",
-                  "background-color": "#0F1D51"
-                },
-                attrs: { src: "/assets/images/lawyers.png", fit: "scale-down" }
-              }),
-              _vm._v(" "),
-              _c("el-image", {
-                staticClass: "images",
-                staticStyle: {
-                  width: "90px",
-                  height: "84px",
-                  "background-color": "#F5F5FB"
-                },
-                attrs: {
-                  src: "/assets/images/mihan-full-logo.png",
-                  fit: "scale-down"
-                }
-              })
-            ],
-            1
-          )
-        ]),
+  return _c("div", { staticClass: "accept" }, [
+    _c("meta", {
+      attrs: {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
+      }
+    }),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "clearfix" },
+      [
+        _c("el-image", {
+          staticStyle: {
+            width: "100%",
+            position: "absolute",
+            top: "0",
+            right: "0",
+            "z-index": "-1",
+            overflow: "hidden"
+          },
+          attrs: { src: "/assets/images/lawyers-banner.svg", fit: "fill" }
+        }),
         _vm._v(" "),
         _c("div", [
-          _c("section", { staticClass: "conditions" }, [
-            _c("p", [
-              _vm._v(
-                'بیمه تکمیلی درمان مرکز وکلا، کارشناسان رسمی و مشاوران خانواده قوه قضائیه سال 1398\n                    (( سلامتی تاجیست بر سر انسانهای سالم که تنها بیماران آن را می بینند ))\n                    نکات قابل توجه:\n                    ✔\tپس از اتمام مراحل ثبت نام و واریز مبلغ حق بیمه، به مدت یکسال شمسی از تاریخ 1398/09/01 لغایت 1399/09/01 در لیست بیمه شدگان درمان تکمیلی مرکز امور وکلاء و کارشناسان قوه قضائیه قرار خواهید گرفت.\n                    ✔\t بیمه شدگان محترم میتوانند مبالغ هزینه شده درمانی خودرا در تاریخ قرارداد (1398/09/01 لغایت 1399/09/01) مطالبه نمایند.\n                    ✔\t حتی در صورت نداشتن بیمه اولیه (مانند تامین اجتماعی، خدمات درمانی، سلامت و ...) امکان دریافت بیمه درمان تکمیلی برای وکلا و کارشناسان محترم وجود دارد.\n                    ✔\t وکلا وکارشناسان محترم می توانند به همراه اعضاء تحت تکفل خود تحت پوشش این بیمه قرار گیرند.\n                    ✔\t  وکلا و کارشناسان خانم می توانند همسر ، فرزندان و پدر و مادرتحت تکفل خود را نیز بیمه نمایند.\n                    ✔\t  بیمه شده می تواند از دو شرکت بیمه گر ،بیمه درمان تکمیلی دریافت نماید مشروط به اینکه بیمه گر اول هزینه ها را براساس تعرفه و سقف تعهدات مندرج در قرارداد پرداخت نماید.\n                    ✔\tتعرفه مورد عمل در قرارداد مطابق تعرفه اعلامی توسط وزارت بهداشت و درمان و سندیکای بیمه گران می باشد.\n                    دوره انتظار:\n                    مدت انتظار برای استفاده از پوشش بند زایمان 6 ماه و برای جراحی و بستری و بیماریهای مزمن شامل : فتق، لوزه وگواتر، انواع سل، صرع، پروستات، دیسک ستون فقرات، بیماریهای نئوپلاستیک، پولیپ، انحراف بینی و سینوزیت مزمن، کیست تخمدان، هیسترکتومی، سیستوسل و رکتوسل، نارسائی مزمن کلیه، سنگ کلیه، سنگ کیسه صفرا، ماستیوئیدکتومی، کاتاراکت، امراض مزمن قلبی، عروقی، دیابت (به استثناء موارد اورژانس که منجر به بستری بیمار در سی سی یو و آی سی یو بشود) 3 ماه می باشد.\n                    دوره انتظار شامل اشخاصی است که درسال 98-97  فاقد پوشش بیمه تکمیل درمان بوده اند.\n                    ✔\tشروع پوشش بیمه بعد از پرداخت حق بیمه و مشروط به به حد نصاب رسیدن تعداد بیمه شدگان در طرح انتخابی می باشد\n                    ✔\tحد نصاب تعداد بیمه شدگان هرطرح حداقل  4000 نفر می باشد\n                    ✔\tپرداخت حق بیمه بر اساس نوع طرح انتخابی همزمان با ثبت نام صورت می گیرد صرفا\n                    " در صورت به حد نصاب نرسیدن تعداد نفرات در هر طرح بیمه گر این اختیار رادارد که اسامی را به طرحی که تعداد نفرات آن به حد نصاب رسیده باشد منتقل و حق بیمه کاهشی یا افزایشی را به بیمه گذار اطلاع دهد  بیمه گر ملزم به استرداد وجه اضافی و بیمه شده ملزم به پرداخت حق بیمه اضافی ناشی از تغییر طرح می باشد "\n                    - بمنظور تسریع در فرایند کارشناسی اسناد پزشکی و پرداخت خسارت بیمه شدگان می تواند اسناد هزینه پزشکی خود را از طریق اپ موبایل بیمه میهن ارسال نمایند زمان واریز خسارت همزمان با دریافت اصل مدارک پزشکی می باشد\n                    فرانشیز\n                    در صورت عدم استفاده بیمه شدگان از سهم بیمه گر اول(عدم دارا بودن دفترچه تامین اجتماعی و خدمات درمانی)،سهم فرانشیز بیمه شدگان 15% از هزینه های قابل پرداخت است.\n                    استثنائات\n                    موارد ذیل از شمول تعهدات بیمه گر خارج میباشد:\n                    ✔\tاعمال جراحی که به منظور زیبائی انجام می¬گیرد، مگر اینکه ناشی از وقوع حادثه در طی مدت بیمه باشد.\n                    ✔\tعیوب مادرزادی، مگر اینکه طبق تشخیص پزشک معالج و تائید پزشک معتمد بیمه¬گر، رفع این عیوب جنبه درمانی\n                    داشته باشد.\n                    ✔\tسقط جنین مگر در موارد قانونی با تشخیص پزشک معالج.\n                    ✔\tجنون ، خودکشی و اعمال مجرمانه بيمه¬شده.\n                    ✔\tترک اعتیاد حوادث طبیعی مانند سیل، زلزله و آتشفشان.\n                    ✔\tجنگ، شورش، اغتشاش، بلوا، اعتصاب، قیام، آشوب، کودتا و اقدامات احتیاطی مقامات نظامی و انتظامی و عملیات خرابکارانه بنا به تایید مقامات ذیصلاح.\n                    ✔\tفعل و انفعالات هسته¬ای.\n                    ✔\t-هزینه اتاق خصوصی، مگر در موارد ضروری به تشخیص پزشک معالج و تائید پزشک معتمد بیمه¬گر.\n                    هزینه همراه بیماران بین 7 تا 70 سال، مگر در موارد ضروری به تشخیص پزشک معالج و تائید پزشک معتمد بیمه¬گر.\n                    ✔\tرفع عیوب انکساری چشم در مواردی که به تشخیص پزشک معتمد بیمه¬گر جمع قدرمطلق نقص بینائی هر چشم\n                    ( درجه نزدیک¬بینی یا دوربینی به¬اضافه نصف آستیگمات) کمتر از 3 دیوپتر باشد.\n                    ✔\tجراحی لثه.جراحی فک، مگر آنکه به علت وجود تومور و یا وقوع حادثه تحت پوشش باشد.\n                    ✔\tهزینه¬های مربوط به معلولیت ذهنی و از کارافتادگی کلی.\n                    ✔\tلوازم بهداشتی و آرایشی که جنبه دارویی ندارند مگر به تشخيص پزشك معتمد بيمه گر.\n                    ✔\tكليه هزينه¬هاي پزشكي که در مراحل تحقيقاتي بوده و تعرفه درماني آن از سوي وزارت بهداشت، درمان و آموزش پزشكي تدوين و اعلام نگرديده است.\n                    ✔\tافرادیکه در هنگام انعقاد قرارداد از کار افتاده کامل و دائم باشند.\n                    هزینه چک آپ و هرگونه اقدامی که جنبه درمانی نداشته باشد.\n                    ✔\tسایر شرایط قرارداد مطابق آئین نامه 74 بیمه مرکزی و عرف صنعت بیمه در ایران می باشد\n                    مهلت ثبت نام تا از 1 آذر ماه لغایت 15 آذرماه 1398 میباشد\n                    '
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dl",
-                attrs: { href: "/assets/conditions.pdf", download: "" }
-              },
-              [
-                _c("section", { staticClass: "right" }, [
-                  _c("div", { staticClass: "icon-box" }),
-                  _vm._v(" "),
-                  _c("h2", [_vm._v("دانلود متن شرایط قرارداد")])
-                ]),
-                _vm._v(" "),
-                _c("section", { staticClass: "left" })
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("label", { staticClass: "container", attrs: { id: "circle" } }, [
-            _c("div", { attrs: { id: "circle2" } }),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.checked,
-                  expression: "checked"
-                }
-              ],
-              attrs: { id: "inputcheck", type: "checkbox" },
-              domProps: {
-                checked: Array.isArray(_vm.checked)
-                  ? _vm._i(_vm.checked, null) > -1
-                  : _vm.checked
-              },
-              on: {
-                click: _vm.changeSubmit,
-                change: function($event) {
-                  var $$a = _vm.checked,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 && (_vm.checked = $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        (_vm.checked = $$a
-                          .slice(0, $$i)
-                          .concat($$a.slice($$i + 1)))
-                    }
-                  } else {
-                    _vm.checked = $$c
-                  }
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "checkmark" }),
+          _c("span", { attrs: { id: "accepttitle" } }, [
             _vm._v(
-              "\n            شرایط قرارداد مطالعه نموده و می پذیرم\n\n          "
+              "مرکز وکلا، کارشناسان رسمی و مشاورانِ\n    خانواده قوه قضائیه"
             )
           ]),
           _vm._v(" "),
-          _c("a", { attrs: { id: "register-btn" } }, [
-            _c("span", [_vm._v("ثبت نام")]),
-            _vm._v(" "),
+          _c("a", { staticClass: "back", attrs: { href: "index.html" } }, [
             _c(
               "svg",
               {
+                staticStyle: {
+                  float: "left",
+                  padding: "15px 15px",
+                  width: "24px",
+                  color: "-webkit-link"
+                },
                 attrs: {
                   xmlns: "http://www.w3.org/2000/svg",
-                  viewBox: "0 0 592 96"
+                  viewBox: "0 0 26 17"
                 }
               },
               [
-                _c("g", { attrs: { id: "Layer_2", "data-name": "Layer 2" } }, [
-                  _c(
-                    "g",
-                    { attrs: { id: "Layer_1-2", "data-name": "Layer 1" } },
-                    [
-                      _c("path", {
-                        staticClass: "cls-1",
-                        attrs: {
-                          d:
-                            "M572,0H20A20,20,0,0,0,0,20V76A20,20,0,0,0,20,96H572a20,20,0,0,0,20-20V20A20,20,0,0,0,572,0Z"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("path", {
-                        staticClass: "cls-2",
-                        attrs: {
-                          d:
-                            "M173.68,96H20A20,20,0,0,1,0,76V30.28C60.18,34.82,125.76,64.17,173.68,96Z"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("path", {
-                        staticClass: "cls-3",
-                        attrs: {
-                          d:
-                            "M592,20V32C578.27,14.77,558.57,6.15,534.54,6.47c-39.69.53-62.76,19.06-92.09,38.09-33.72,21.94-109,57.7-161.95-10A146.24,146.24,0,0,1,260.28,0H572A20,20,0,0,1,592,20Z"
-                        }
-                      })
-                    ]
-                  )
+                _c("g", { attrs: { id: "back_2", "data-name": "back 2" } }, [
+                  _c("g", { attrs: { id: "back-2", "data-name": "back" } }, [
+                    _c("polyline", {
+                      staticClass: "back-1",
+                      attrs: { points: "8.48 1 1 8.48 8.52 16" }
+                    }),
+                    _vm._v(" "),
+                    _c("line", {
+                      staticClass: "back-1",
+                      attrs: { x1: "1", y1: "8.5", x2: "25", y2: "8.5" }
+                    })
+                  ])
                 ])
               ]
             )
           ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          [
+            _c("el-image", {
+              staticClass: "images",
+              staticStyle: {
+                width: "90px",
+                height: "84px",
+                "background-color": "#0F1D51"
+              },
+              attrs: { src: "/assets/images/lawyers.png", fit: "scale-down" }
+            }),
+            _vm._v(" "),
+            _c("el-image", {
+              staticClass: "images",
+              staticStyle: {
+                width: "90px",
+                height: "84px",
+                "background-color": "#F5F5FB"
+              },
+              attrs: {
+                src: "/assets/images/mihan-full-logo.png",
+                fit: "scale-down"
+              }
+            })
+          ],
+          1
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("label", { staticClass: "container", attrs: { id: "circle" } }, [
+        _c("div", { attrs: { id: "circle2" } }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.checked,
+              expression: "checked"
+            }
+          ],
+          attrs: { id: "inputcheck", type: "checkbox" },
+          domProps: {
+            checked: Array.isArray(_vm.checked)
+              ? _vm._i(_vm.checked, null) > -1
+              : _vm.checked
+          },
+          on: {
+            click: _vm.changeSubmit,
+            change: function($event) {
+              var $$a = _vm.checked,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.checked = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.checked = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "checkmark" }),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "\n            شرایط قرارداد مطالعه نموده و می پذیرم\n          "
+          )
         ])
+      ]),
+      _vm._v(" "),
+      _c("a", { attrs: { id: "register-btn" }, on: { click: _vm.submit } }, [
+        _c("span", [_vm._v("ثبت نام")]),
+        _vm._v(" "),
+        _c(
+          "svg",
+          {
+            attrs: {
+              xmlns: "http://www.w3.org/2000/svg",
+              viewBox: "0 0 592 96"
+            }
+          },
+          [
+            _c("g", { attrs: { id: "Layer_2", "data-name": "Layer 2" } }, [
+              _c("g", { attrs: { id: "Layer_1-2", "data-name": "Layer 1" } }, [
+                _c("path", {
+                  staticClass: "cls-1",
+                  attrs: {
+                    d:
+                      "M572,0H20A20,20,0,0,0,0,20V76A20,20,0,0,0,20,96H572a20,20,0,0,0,20-20V20A20,20,0,0,0,572,0Z"
+                  }
+                }),
+                _vm._v(" "),
+                _c("path", {
+                  staticClass: "cls-2",
+                  attrs: {
+                    d:
+                      "M173.68,96H20A20,20,0,0,1,0,76V30.28C60.18,34.82,125.76,64.17,173.68,96Z"
+                  }
+                }),
+                _vm._v(" "),
+                _c("path", {
+                  staticClass: "cls-3",
+                  attrs: {
+                    d:
+                      "M592,20V32C578.27,14.77,558.57,6.15,534.54,6.47c-39.69.53-62.76,19.06-92.09,38.09-33.72,21.94-109,57.7-161.95-10A146.24,146.24,0,0,1,260.28,0H572A20,20,0,0,1,592,20Z"
+                  }
+                })
+              ])
+            ])
+          ]
+        )
       ])
-    ],
-    1
-  )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "conditions box-card" }, [
+      _c("p", [
+        _vm._v(
+          'بیمه تکمیلی درمان مرکز وکلا، کارشناسان رسمی و مشاوران خانواده قوه قضائیه سال 1398\n                  (( سلامتی تاجیست بر سر انسانهای سالم که تنها بیماران آن را می بینند ))\n                  نکات قابل توجه:\n                  ✔\tپس از اتمام مراحل ثبت نام و واریز مبلغ حق بیمه، به مدت یکسال شمسی از تاریخ 1398/09/01 لغایت 1399/09/01 در لیست بیمه شدگان درمان تکمیلی مرکز امور وکلاء و کارشناسان قوه قضائیه قرار خواهید گرفت.\n                  ✔\t بیمه شدگان محترم میتوانند مبالغ هزینه شده درمانی خودرا در تاریخ قرارداد (1398/09/01 لغایت 1399/09/01) مطالبه نمایند.\n                  ✔\t حتی در صورت نداشتن بیمه اولیه (مانند تامین اجتماعی، خدمات درمانی، سلامت و ...) امکان دریافت بیمه درمان تکمیلی برای وکلا و کارشناسان محترم وجود دارد.\n                  ✔\t وکلا وکارشناسان محترم می توانند به همراه اعضاء تحت تکفل خود تحت پوشش این بیمه قرار گیرند.\n                  ✔\t  وکلا و کارشناسان خانم می توانند همسر ، فرزندان و پدر و مادرتحت تکفل خود را نیز بیمه نمایند.\n                  ✔\t  بیمه شده می تواند از دو شرکت بیمه گر ،بیمه درمان تکمیلی دریافت نماید مشروط به اینکه بیمه گر اول هزینه ها را براساس تعرفه و سقف تعهدات مندرج در قرارداد پرداخت نماید.\n                  ✔\tتعرفه مورد عمل در قرارداد مطابق تعرفه اعلامی توسط وزارت بهداشت و درمان و سندیکای بیمه گران می باشد.\n                  دوره انتظار:\n                  مدت انتظار برای استفاده از پوشش بند زایمان 6 ماه و برای جراحی و بستری و بیماریهای مزمن شامل : فتق، لوزه وگواتر، انواع سل، صرع، پروستات، دیسک ستون فقرات، بیماریهای نئوپلاستیک، پولیپ، انحراف بینی و سینوزیت مزمن، کیست تخمدان، هیسترکتومی، سیستوسل و رکتوسل، نارسائی مزمن کلیه، سنگ کلیه، سنگ کیسه صفرا، ماستیوئیدکتومی، کاتاراکت، امراض مزمن قلبی، عروقی، دیابت (به استثناء موارد اورژانس که منجر به بستری بیمار در سی سی یو و آی سی یو بشود) 3 ماه می باشد.\n                  دوره انتظار شامل اشخاصی است که درسال 98-97  فاقد پوشش بیمه تکمیل درمان بوده اند.\n                  ✔\tشروع پوشش بیمه بعد از پرداخت حق بیمه و مشروط به به حد نصاب رسیدن تعداد بیمه شدگان در طرح انتخابی می باشد\n                  ✔\tحد نصاب تعداد بیمه شدگان هرطرح حداقل  4000 نفر می باشد\n                  ✔\tپرداخت حق بیمه بر اساس نوع طرح انتخابی همزمان با ثبت نام صورت می گیرد صرفا\n                  " در صورت به حد نصاب نرسیدن تعداد نفرات در هر طرح بیمه گر این اختیار رادارد که اسامی را به طرحی که تعداد نفرات آن به حد نصاب رسیده باشد منتقل و حق بیمه کاهشی یا افزایشی را به بیمه گذار اطلاع دهد  بیمه گر ملزم به استرداد وجه اضافی و بیمه شده ملزم به پرداخت حق بیمه اضافی ناشی از تغییر طرح می باشد "\n                  - بمنظور تسریع در فرایند کارشناسی اسناد پزشکی و پرداخت خسارت بیمه شدگان می تواند اسناد هزینه پزشکی خود را از طریق اپ موبایل بیمه میهن ارسال نمایند زمان واریز خسارت همزمان با دریافت اصل مدارک پزشکی می باشد\n                  فرانشیز\n                  در صورت عدم استفاده بیمه شدگان از سهم بیمه گر اول(عدم دارا بودن دفترچه تامین اجتماعی و خدمات درمانی)،سهم فرانشیز بیمه شدگان 15% از هزینه های قابل پرداخت است.\n                  استثنائات\n                  موارد ذیل از شمول تعهدات بیمه گر خارج میباشد:\n                  ✔\tاعمال جراحی که به منظور زیبائی انجام می¬گیرد، مگر اینکه ناشی از وقوع حادثه در طی مدت بیمه باشد.\n                  ✔\tعیوب مادرزادی، مگر اینکه طبق تشخیص پزشک معالج و تائید پزشک معتمد بیمه¬گر، رفع این عیوب جنبه درمانی\n                  داشته باشد.\n                  ✔\tسقط جنین مگر در موارد قانونی با تشخیص پزشک معالج.\n                  ✔\tجنون ، خودکشی و اعمال مجرمانه بيمه¬شده.\n                  ✔\tترک اعتیاد حوادث طبیعی مانند سیل، زلزله و آتشفشان.\n                  ✔\tجنگ، شورش، اغتشاش، بلوا، اعتصاب، قیام، آشوب، کودتا و اقدامات احتیاطی مقامات نظامی و انتظامی و عملیات خرابکارانه بنا به تایید مقامات ذیصلاح.\n                  ✔\tفعل و انفعالات هسته¬ای.\n                  ✔\t-هزینه اتاق خصوصی، مگر در موارد ضروری به تشخیص پزشک معالج و تائید پزشک معتمد بیمه¬گر.\n                  هزینه همراه بیماران بین 7 تا 70 سال، مگر در موارد ضروری به تشخیص پزشک معالج و تائید پزشک معتمد بیمه¬گر.\n                  ✔\tرفع عیوب انکساری چشم در مواردی که به تشخیص پزشک معتمد بیمه¬گر جمع قدرمطلق نقص بینائی هر چشم\n                  ( درجه نزدیک¬بینی یا دوربینی به¬اضافه نصف آستیگمات) کمتر از 3 دیوپتر باشد.\n                  ✔\tجراحی لثه.جراحی فک، مگر آنکه به علت وجود تومور و یا وقوع حادثه تحت پوشش باشد.\n                  ✔\tهزینه¬های مربوط به معلولیت ذهنی و از کارافتادگی کلی.\n                  ✔\tلوازم بهداشتی و آرایشی که جنبه دارویی ندارند مگر به تشخيص پزشك معتمد بيمه گر.\n                  ✔\tكليه هزينه¬هاي پزشكي که در مراحل تحقيقاتي بوده و تعرفه درماني آن از سوي وزارت بهداشت، درمان و آموزش پزشكي تدوين و اعلام نگرديده است.\n                  ✔\tافرادیکه در هنگام انعقاد قرارداد از کار افتاده کامل و دائم باشند.\n                  هزینه چک آپ و هرگونه اقدامی که جنبه درمانی نداشته باشد.\n                  ✔\tسایر شرایط قرارداد مطابق آئین نامه 74 بیمه مرکزی و عرف صنعت بیمه در ایران می باشد\n                  مهلت ثبت نام تا از 1 آذر ماه لغایت 15 آذرماه 1398 میباشد\n                  '
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "dl",
+          attrs: { href: "/assets/conditions.pdf", download: "" }
+        },
+        [
+          _c("section", { staticClass: "right" }, [
+            _c("div", { staticClass: "icon-box" }),
+            _vm._v(" "),
+            _c("h2", [_vm._v("دانلود متن شرایط قرارداد")])
+          ]),
+          _vm._v(" "),
+          _c("section", { staticClass: "left" })
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -82788,122 +82646,223 @@ var render = function() {
     "div",
     { staticClass: "insuranceForm" },
     [
+      _c("meta", {
+        attrs: {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1"
+        }
+      }),
+      _vm._v(" "),
       _c(
-        "el-row",
-        { attrs: { gutter: 20 } },
+        "el-form",
+        {
+          ref: "ruleForm",
+          staticClass: "demo-ruleForm",
+          attrs: {
+            model: _vm.ruleForm,
+            rules: _vm.rules,
+            "label-width": "120px"
+          }
+        },
         [
           _c(
-            "el-col",
-            { attrs: { span: 8, offset: 4 } },
+            "el-form-item",
+            {
+              staticClass: "formlist",
+              attrs: { "label-position": "left", prop: "name", label: "کد ملی" }
+            },
             [
-              _c(
-                "el-form",
-                {
-                  staticClass: "demo-ruleForm",
-                  attrs: { "label-width": "120px" }
-                },
-                [
-                  _vm._l(_vm.fields, function(field) {
-                    return field.show
-                      ? _c(
-                          "el-form-item",
-                          {
-                            class: {
-                              invalid: _vm.$v.fields[field.prop].input.$error
-                            },
-                            attrs: { prop: field.prop, label: field.label }
-                          },
-                          [
-                            _vm._l(field.num, function(single, index) {
-                              return field.multi
-                                ? _c("el-input", {
-                                    staticClass: "multigroup",
-                                    model: {
-                                      value: field.input[index],
-                                      callback: function($$v) {
-                                        _vm.$set(field.input, index, $$v)
-                                      },
-                                      expression: "field.input[index]"
-                                    }
-                                  })
-                                : _c("el-input", {
-                                    on: {
-                                      blur: function($event) {
-                                        _vm.$v.fields[field.prop].input.$touch()
-                                      }
-                                    },
-                                    model: {
-                                      value: field.input,
-                                      callback: function($$v) {
-                                        _vm.$set(field, "input", $$v)
-                                      },
-                                      expression: "field.input"
-                                    }
-                                  })
-                            }),
-                            _vm._v(" "),
-                            _vm.$v.fields[field.prop].input.$error
-                              ? _c("p", [_vm._v(" " + _vm._s(field.message))])
-                              : _vm._e()
-                          ],
-                          2
-                        )
-                      : _vm._e()
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "el-button",
-                    {
-                      attrs: { type: "primary", disabled: _vm.$v.$invalid },
-                      on: { click: _vm.submit }
-                    },
-                    [_vm._v("\n        Submit")]
-                  )
-                ],
-                2
-              )
+              _c("el-input", {
+                model: {
+                  value: _vm.ruleForm.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.ruleForm, "name", $$v)
+                  },
+                  expression: "ruleForm.name"
+                }
+              })
             ],
             1
           ),
           _vm._v(" "),
           _c(
-            "el-col",
-            { attrs: { span: 8 } },
-            _vm._l(_vm.fields, function(field, index) {
-              return field.buttonshow
-                ? _c(
-                    "el-button",
-                    {
-                      staticClass: "buttons",
-                      attrs: { round: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.buttonclick(index)
-                        }
-                      }
-                    },
-                    [
-                      field.multi
-                        ? _c("div", [
-                            _vm._v(
-                              "\n          " +
-                                _vm._s(field.label) +
-                                "(" +
-                                _vm._s(field.num) +
-                                ")\n        "
-                            )
-                          ])
-                        : _c("div", [
-                            _vm._v(
-                              "\n          " +
-                                _vm._s(field.label) +
-                                "\n        "
-                            )
-                          ])
-                    ]
-                  )
-                : _vm._e()
-            }),
+            "el-form-item",
+            {
+              staticClass: "formlist",
+              attrs: {
+                "label-position": "top",
+                "label-width": "",
+                prop: "name",
+                label: "نام"
+              }
+            },
+            [
+              _c("el-input", {
+                model: {
+                  value: _vm.ruleForm.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.ruleForm, "name", $$v)
+                  },
+                  expression: "ruleForm.name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            {
+              staticClass: "formlist",
+              attrs: {
+                "label-position": "top",
+                "label-width": "",
+                prop: "name",
+                label: "نام خانوادگی"
+              }
+            },
+            [
+              _c("el-input", {
+                model: {
+                  value: _vm.ruleForm.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.ruleForm, "name", $$v)
+                  },
+                  expression: "ruleForm.name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            {
+              staticClass: "formlist",
+              attrs: {
+                "label-position": "top",
+                "label-width": "",
+                prop: "name",
+                label: "تلفن همراه"
+              }
+            },
+            [
+              _c("el-input", {
+                model: {
+                  value: _vm.ruleForm.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.ruleForm, "name", $$v)
+                  },
+                  expression: "ruleForm.name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            {
+              staticClass: "formlist",
+              attrs: {
+                "label-position": "top",
+                "label-width": "",
+                prop: "name",
+                label: "تلفن ثابت"
+              }
+            },
+            [
+              _c("el-input", {
+                model: {
+                  value: _vm.ruleForm.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.ruleForm, "name", $$v)
+                  },
+                  expression: "ruleForm.name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            {
+              staticClass: "formlist",
+              attrs: {
+                "label-position": "top",
+                "label-width": "",
+                prop: "name",
+                label: "کد پستی"
+              }
+            },
+            [
+              _c("el-input", {
+                model: {
+                  value: _vm.ruleForm.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.ruleForm, "name", $$v)
+                  },
+                  expression: "ruleForm.name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            {
+              staticClass: "formlist",
+              attrs: {
+                "label-position": "top",
+                "label-width": "",
+                prop: "name",
+                label: "نشانی"
+              }
+            },
+            [
+              _c("el-input", {
+                model: {
+                  value: _vm.ruleForm.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.ruleForm, "name", $$v)
+                  },
+                  expression: "ruleForm.name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            [
+              _c(
+                "el-button",
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      return _vm.submitForm("ruleForm")
+                    }
+                  }
+                },
+                [_vm._v("Create")]
+              ),
+              _vm._v(" "),
+              _c(
+                "el-button",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.resetForm("ruleForm")
+                    }
+                  }
+                },
+                [_vm._v("Reset")]
+              )
+            ],
             1
           )
         ],
@@ -100567,922 +100526,6 @@ function withParams(paramsOrClosure, maybeValidator) {
 
 /***/ }),
 
-/***/ "./node_modules/vuelidate/lib/validators/alpha.js":
-/*!********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/alpha.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = (0, _common.regex)('alpha', /^[a-zA-Z]*$/);
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/alphaNum.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/alphaNum.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = (0, _common.regex)('alphaNum', /^[a-zA-Z0-9]*$/);
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/and.js":
-/*!******************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/and.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default() {
-  for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
-    validators[_key] = arguments[_key];
-  }
-
-  return (0, _common.withParams)({
-    type: 'and'
-  }, function () {
-    var _this = this;
-
-    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
-    }
-
-    return validators.length > 0 && validators.reduce(function (valid, fn) {
-      return valid && fn.apply(_this, args);
-    }, true);
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/between.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/between.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(min, max) {
-  return (0, _common.withParams)({
-    type: 'between',
-    min: min,
-    max: max
-  }, function (value) {
-    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +min <= +value && +max >= +value;
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/common.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/common.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "withParams", {
-  enumerable: true,
-  get: function get() {
-    return _withParams.default;
-  }
-});
-exports.regex = exports.ref = exports.len = exports.req = void 0;
-
-var _withParams = _interopRequireDefault(__webpack_require__(/*! ../withParams */ "./node_modules/vuelidate/lib/withParams.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var req = function req(value) {
-  if (Array.isArray(value)) return !!value.length;
-
-  if (value === undefined || value === null) {
-    return false;
-  }
-
-  if (value === false) {
-    return true;
-  }
-
-  if (value instanceof Date) {
-    return !isNaN(value.getTime());
-  }
-
-  if (_typeof(value) === 'object') {
-    for (var _ in value) {
-      return true;
-    }
-
-    return false;
-  }
-
-  return !!String(value).length;
-};
-
-exports.req = req;
-
-var len = function len(value) {
-  if (Array.isArray(value)) return value.length;
-
-  if (_typeof(value) === 'object') {
-    return Object.keys(value).length;
-  }
-
-  return String(value).length;
-};
-
-exports.len = len;
-
-var ref = function ref(reference, vm, parentVm) {
-  return typeof reference === 'function' ? reference.call(vm, parentVm) : parentVm[reference];
-};
-
-exports.ref = ref;
-
-var regex = function regex(type, expr) {
-  return (0, _withParams.default)({
-    type: type
-  }, function (value) {
-    return !req(value) || expr.test(value);
-  });
-};
-
-exports.regex = regex;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/decimal.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/decimal.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = (0, _common.regex)('decimal', /^[-]?\d*(\.\d+)?$/);
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/email.js":
-/*!********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/email.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var emailRegex = /(^$|^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
-
-var _default = (0, _common.regex)('email', emailRegex);
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/index.js":
-/*!********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/index.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "alpha", {
-  enumerable: true,
-  get: function get() {
-    return _alpha.default;
-  }
-});
-Object.defineProperty(exports, "alphaNum", {
-  enumerable: true,
-  get: function get() {
-    return _alphaNum.default;
-  }
-});
-Object.defineProperty(exports, "numeric", {
-  enumerable: true,
-  get: function get() {
-    return _numeric.default;
-  }
-});
-Object.defineProperty(exports, "between", {
-  enumerable: true,
-  get: function get() {
-    return _between.default;
-  }
-});
-Object.defineProperty(exports, "email", {
-  enumerable: true,
-  get: function get() {
-    return _email.default;
-  }
-});
-Object.defineProperty(exports, "ipAddress", {
-  enumerable: true,
-  get: function get() {
-    return _ipAddress.default;
-  }
-});
-Object.defineProperty(exports, "macAddress", {
-  enumerable: true,
-  get: function get() {
-    return _macAddress.default;
-  }
-});
-Object.defineProperty(exports, "maxLength", {
-  enumerable: true,
-  get: function get() {
-    return _maxLength.default;
-  }
-});
-Object.defineProperty(exports, "minLength", {
-  enumerable: true,
-  get: function get() {
-    return _minLength.default;
-  }
-});
-Object.defineProperty(exports, "required", {
-  enumerable: true,
-  get: function get() {
-    return _required.default;
-  }
-});
-Object.defineProperty(exports, "requiredIf", {
-  enumerable: true,
-  get: function get() {
-    return _requiredIf.default;
-  }
-});
-Object.defineProperty(exports, "requiredUnless", {
-  enumerable: true,
-  get: function get() {
-    return _requiredUnless.default;
-  }
-});
-Object.defineProperty(exports, "sameAs", {
-  enumerable: true,
-  get: function get() {
-    return _sameAs.default;
-  }
-});
-Object.defineProperty(exports, "url", {
-  enumerable: true,
-  get: function get() {
-    return _url.default;
-  }
-});
-Object.defineProperty(exports, "or", {
-  enumerable: true,
-  get: function get() {
-    return _or.default;
-  }
-});
-Object.defineProperty(exports, "and", {
-  enumerable: true,
-  get: function get() {
-    return _and.default;
-  }
-});
-Object.defineProperty(exports, "not", {
-  enumerable: true,
-  get: function get() {
-    return _not.default;
-  }
-});
-Object.defineProperty(exports, "minValue", {
-  enumerable: true,
-  get: function get() {
-    return _minValue.default;
-  }
-});
-Object.defineProperty(exports, "maxValue", {
-  enumerable: true,
-  get: function get() {
-    return _maxValue.default;
-  }
-});
-Object.defineProperty(exports, "integer", {
-  enumerable: true,
-  get: function get() {
-    return _integer.default;
-  }
-});
-Object.defineProperty(exports, "decimal", {
-  enumerable: true,
-  get: function get() {
-    return _decimal.default;
-  }
-});
-exports.helpers = void 0;
-
-var _alpha = _interopRequireDefault(__webpack_require__(/*! ./alpha */ "./node_modules/vuelidate/lib/validators/alpha.js"));
-
-var _alphaNum = _interopRequireDefault(__webpack_require__(/*! ./alphaNum */ "./node_modules/vuelidate/lib/validators/alphaNum.js"));
-
-var _numeric = _interopRequireDefault(__webpack_require__(/*! ./numeric */ "./node_modules/vuelidate/lib/validators/numeric.js"));
-
-var _between = _interopRequireDefault(__webpack_require__(/*! ./between */ "./node_modules/vuelidate/lib/validators/between.js"));
-
-var _email = _interopRequireDefault(__webpack_require__(/*! ./email */ "./node_modules/vuelidate/lib/validators/email.js"));
-
-var _ipAddress = _interopRequireDefault(__webpack_require__(/*! ./ipAddress */ "./node_modules/vuelidate/lib/validators/ipAddress.js"));
-
-var _macAddress = _interopRequireDefault(__webpack_require__(/*! ./macAddress */ "./node_modules/vuelidate/lib/validators/macAddress.js"));
-
-var _maxLength = _interopRequireDefault(__webpack_require__(/*! ./maxLength */ "./node_modules/vuelidate/lib/validators/maxLength.js"));
-
-var _minLength = _interopRequireDefault(__webpack_require__(/*! ./minLength */ "./node_modules/vuelidate/lib/validators/minLength.js"));
-
-var _required = _interopRequireDefault(__webpack_require__(/*! ./required */ "./node_modules/vuelidate/lib/validators/required.js"));
-
-var _requiredIf = _interopRequireDefault(__webpack_require__(/*! ./requiredIf */ "./node_modules/vuelidate/lib/validators/requiredIf.js"));
-
-var _requiredUnless = _interopRequireDefault(__webpack_require__(/*! ./requiredUnless */ "./node_modules/vuelidate/lib/validators/requiredUnless.js"));
-
-var _sameAs = _interopRequireDefault(__webpack_require__(/*! ./sameAs */ "./node_modules/vuelidate/lib/validators/sameAs.js"));
-
-var _url = _interopRequireDefault(__webpack_require__(/*! ./url */ "./node_modules/vuelidate/lib/validators/url.js"));
-
-var _or = _interopRequireDefault(__webpack_require__(/*! ./or */ "./node_modules/vuelidate/lib/validators/or.js"));
-
-var _and = _interopRequireDefault(__webpack_require__(/*! ./and */ "./node_modules/vuelidate/lib/validators/and.js"));
-
-var _not = _interopRequireDefault(__webpack_require__(/*! ./not */ "./node_modules/vuelidate/lib/validators/not.js"));
-
-var _minValue = _interopRequireDefault(__webpack_require__(/*! ./minValue */ "./node_modules/vuelidate/lib/validators/minValue.js"));
-
-var _maxValue = _interopRequireDefault(__webpack_require__(/*! ./maxValue */ "./node_modules/vuelidate/lib/validators/maxValue.js"));
-
-var _integer = _interopRequireDefault(__webpack_require__(/*! ./integer */ "./node_modules/vuelidate/lib/validators/integer.js"));
-
-var _decimal = _interopRequireDefault(__webpack_require__(/*! ./decimal */ "./node_modules/vuelidate/lib/validators/decimal.js"));
-
-var helpers = _interopRequireWildcard(__webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js"));
-
-exports.helpers = helpers;
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/integer.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/integer.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = (0, _common.regex)('integer', /^-?[0-9]*$/);
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/ipAddress.js":
-/*!************************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/ipAddress.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = (0, _common.withParams)({
-  type: 'ipAddress'
-}, function (value) {
-  if (!(0, _common.req)(value)) {
-    return true;
-  }
-
-  if (typeof value !== 'string') {
-    return false;
-  }
-
-  var nibbles = value.split('.');
-  return nibbles.length === 4 && nibbles.every(nibbleValid);
-});
-
-exports.default = _default;
-
-var nibbleValid = function nibbleValid(nibble) {
-  if (nibble.length > 3 || nibble.length === 0) {
-    return false;
-  }
-
-  if (nibble[0] === '0' && nibble !== '0') {
-    return false;
-  }
-
-  if (!nibble.match(/^\d+$/)) {
-    return false;
-  }
-
-  var numeric = +nibble | 0;
-  return numeric >= 0 && numeric <= 255;
-};
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/macAddress.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/macAddress.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default() {
-  var separator = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ':';
-  return (0, _common.withParams)({
-    type: 'macAddress'
-  }, function (value) {
-    if (!(0, _common.req)(value)) {
-      return true;
-    }
-
-    if (typeof value !== 'string') {
-      return false;
-    }
-
-    var parts = typeof separator === 'string' && separator !== '' ? value.split(separator) : value.length === 12 || value.length === 16 ? value.match(/.{2}/g) : null;
-    return parts !== null && (parts.length === 6 || parts.length === 8) && parts.every(hexValid);
-  });
-};
-
-exports.default = _default;
-
-var hexValid = function hexValid(hex) {
-  return hex.toLowerCase().match(/^[0-9a-f]{2}$/);
-};
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/maxLength.js":
-/*!************************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/maxLength.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(length) {
-  return (0, _common.withParams)({
-    type: 'maxLength',
-    max: length
-  }, function (value) {
-    return !(0, _common.req)(value) || (0, _common.len)(value) <= length;
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/maxValue.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/maxValue.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(max) {
-  return (0, _common.withParams)({
-    type: 'maxValue',
-    max: max
-  }, function (value) {
-    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +value <= +max;
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/minLength.js":
-/*!************************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/minLength.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(length) {
-  return (0, _common.withParams)({
-    type: 'minLength',
-    min: length
-  }, function (value) {
-    return !(0, _common.req)(value) || (0, _common.len)(value) >= length;
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/minValue.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/minValue.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(min) {
-  return (0, _common.withParams)({
-    type: 'minValue',
-    min: min
-  }, function (value) {
-    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +value >= +min;
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/not.js":
-/*!******************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/not.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(validator) {
-  return (0, _common.withParams)({
-    type: 'not'
-  }, function (value, vm) {
-    return !(0, _common.req)(value) || !validator.call(this, value, vm);
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/numeric.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/numeric.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = (0, _common.regex)('numeric', /^[0-9]*$/);
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/or.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/or.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default() {
-  for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
-    validators[_key] = arguments[_key];
-  }
-
-  return (0, _common.withParams)({
-    type: 'or'
-  }, function () {
-    var _this = this;
-
-    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
-    }
-
-    return validators.length > 0 && validators.reduce(function (valid, fn) {
-      return valid || fn.apply(_this, args);
-    }, false);
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/required.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/required.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = (0, _common.withParams)({
-  type: 'required'
-}, _common.req);
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/requiredIf.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/requiredIf.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(prop) {
-  return (0, _common.withParams)({
-    type: 'requiredIf',
-    prop: prop
-  }, function (value, parentVm) {
-    return (0, _common.ref)(prop, this, parentVm) ? (0, _common.req)(value) : true;
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/requiredUnless.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/requiredUnless.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(prop) {
-  return (0, _common.withParams)({
-    type: 'requiredUnless',
-    prop: prop
-  }, function (value, parentVm) {
-    return !(0, _common.ref)(prop, this, parentVm) ? (0, _common.req)(value) : true;
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/sameAs.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/sameAs.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var _default = function _default(equalTo) {
-  return (0, _common.withParams)({
-    type: 'sameAs',
-    eq: equalTo
-  }, function (value, parentVm) {
-    return value === (0, _common.ref)(equalTo, this, parentVm);
-  });
-};
-
-exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/validators/url.js":
-/*!******************************************************!*\
-  !*** ./node_modules/vuelidate/lib/validators/url.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _common = __webpack_require__(/*! ./common */ "./node_modules/vuelidate/lib/validators/common.js");
-
-var urlRegex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-
-var _default = (0, _common.regex)('url', urlRegex);
-
-exports.default = _default;
-
-/***/ }),
-
 /***/ "./node_modules/vuelidate/lib/vval.js":
 /*!********************************************!*\
   !*** ./node_modules/vuelidate/lib/vval.js ***!
@@ -101644,60 +100687,6 @@ function h(tag, key, args) {
     args: args
   };
 }
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/withParams.js":
-/*!**************************************************!*\
-  !*** ./node_modules/vuelidate/lib/withParams.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var withParams = process.env.BUILD === 'web' ? __webpack_require__(/*! ./withParamsBrowser */ "./node_modules/vuelidate/lib/withParamsBrowser.js").withParams : __webpack_require__(/*! ./params */ "./node_modules/vuelidate/lib/params.js").withParams;
-var _default = withParams;
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../process/browser.js */ "./node_modules/process/browser.js")))
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/withParamsBrowser.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/vuelidate/lib/withParamsBrowser.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.withParams = void 0;
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var root = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
-
-var fakeWithParams = function fakeWithParams(paramsOrClosure, maybeValidator) {
-  if (_typeof(paramsOrClosure) === 'object' && maybeValidator !== undefined) {
-    return maybeValidator;
-  }
-
-  return paramsOrClosure(function () {});
-};
-
-var withParams = root.vuelidate ? root.vuelidate.withParams : fakeWithParams;
-exports.withParams = withParams;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -101943,14 +100932,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!********************************************!*\
   !*** ./resources/js/components/accept.vue ***!
   \********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _accept_vue_vue_type_template_id_8ae879da___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./accept.vue?vue&type=template&id=8ae879da& */ "./resources/js/components/accept.vue?vue&type=template&id=8ae879da&");
 /* harmony import */ var _accept_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./accept.vue?vue&type=script&lang=js& */ "./resources/js/components/accept.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _accept_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./accept.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/accept.vue?vue&type=style&index=0&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _accept_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _accept_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _accept_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./accept.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/accept.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -101982,7 +100972,7 @@ component.options.__file = "resources/js/components/accept.vue"
 /*!*********************************************************************!*\
   !*** ./resources/js/components/accept.vue?vue&type=script&lang=js& ***!
   \*********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
