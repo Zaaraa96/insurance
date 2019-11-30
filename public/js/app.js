@@ -3535,7 +3535,7 @@ __webpack_require__.r(__webpack_exports__);
       d.style.borderRadius = "50%";
       d.style.transition = "1s";
       d.style.position = "absolute";
-      d.style.right = "-1%";
+      d.style.right = "-1.5%";
       circle1.appendChild(d);
       var circle2 = document.getElementById("circle2");
 
@@ -3546,7 +3546,7 @@ __webpack_require__.r(__webpack_exports__);
         d.style.backgroundColor = 'rgb(0, 183, 183)';
       }
 
-      d.style.opacity = "0.2";
+      d.style.opacity = "0.1";
       sleep(1000).then(function () {
         d.style.opacity = '0';
       });
@@ -3575,7 +3575,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.checked) {
         bg.removeAttribute("href");
         bg.style.cursor = "auto";
-        console.log(bg.style.cursor);
         bg.style.boxShadow = "0px 18px 21px rgba(171, 175, 195, 0.4)";
         c1[0].style.fill = "#c1c5d7";
         c2[0].style.fill = "#d6daea";
@@ -3585,7 +3584,6 @@ __webpack_require__.r(__webpack_exports__);
 
         bg.href = ref;
         bg.style.cursor = "pointer";
-        console.log(bg.style.cursor);
         bg.style.boxShadow = "0px 18px 21px rgba(0, 183, 183, 0.4)";
         c1[0].style.fill = "#00b7b7";
         c2[0].style.fill = "#00b2ad";
@@ -3604,16 +3602,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     //url ends with id="idNum" if we suppose we are user with id=1; probably we should get it from localstorage
-    this.id = '1';
-    console.log(window.innerWidth);
+    this.id = '1'; //console.log(window.innerWidth);
 
     if (window.innerWidth > 430) {
       var bg = document.getElementById("register-btn");
       var s = (window.innerWidth - 355 * 0.9) / 2;
       var str = "";
       str += s;
-      str += "px";
-      console.log(str);
+      str += "px"; //console.log(str);
+
       bg.style.marginRight = str;
     } else if (window.innerWidth > 370) {
       var _bg = document.getElementById("register-btn");
@@ -3622,8 +3619,8 @@ __webpack_require__.r(__webpack_exports__);
 
       var _str = "";
       _str += _s;
-      _str += "px";
-      console.log(_str);
+      _str += "px"; //console.log(str);
+
       _bg.style.marginRight = _str;
     }
   }
@@ -3684,68 +3681,113 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "insuranceform",
   data: function data() {
     return {
       ruleForm: {
         name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        familyname: '',
+        idCard: '',
+        phone: '',
+        cellphone: '',
+        postalcode: '',
+        address: '',
+        dialogImageUrl: '',
+        dialogVisible: false
       },
       rules: {
         name: [{
           required: true,
-          message: 'Please input Activity name',
+          message: 'نام الزامی است',
+          trigger: 'blur'
+        }],
+        familyname: [{
+          required: true,
+          message: 'نام خانوادگی الزامی است',
+          trigger: 'blur'
+        }],
+        idCard: [{
+          required: true,
+          message: 'کد ملی الزامی است',
           trigger: 'blur'
         }, {
-          min: 3,
-          max: 5,
-          message: 'Length should be 3 to 5',
+          length: 10,
+          pattern: /^\d{10}$/,
+          message: 'مقدار کد ملی معتبر نمی باشد',
           trigger: 'blur'
         }],
-        region: [{
-          required: true,
-          message: 'Please select Activity zone',
-          trigger: 'change'
+        phone: [{
+          trigger: 'blur'
         }],
-        date1: [{
-          type: 'date',
+        cellphone: [{
           required: true,
-          message: 'Please pick a date',
-          trigger: 'change'
+          message: "شماره تلفن همراه الزامی می باشد",
+          trigger: 'blur'
+        }, {
+          pattern: /^09\d{9}$/,
+          message: "شماره تلفن همراه معتبر نمی باشد",
+          trigger: 'blur'
         }],
-        date2: [{
-          type: 'date',
+        postalcode: [{
           required: true,
-          message: 'Please pick a time',
-          trigger: 'change'
+          message: "کد پستی الزامی است",
+          trigger: 'blur'
+        }, {
+          pattern: /^\d{10}$/,
+          message: "کد پستی معتبر نمی باشد",
+          trigger: 'blur'
         }],
-        type: [{
-          type: 'array',
+        address: [{
           required: true,
-          message: 'Please select at least one activity type',
-          trigger: 'change'
-        }],
-        resource: [{
-          required: true,
-          message: 'Please select activity resource',
-          trigger: 'change'
-        }],
-        desc: [{
-          required: true,
-          message: 'Please input activity form',
+          message: 'آدرس الزامی است',
           trigger: 'blur'
         }]
       }
     };
   },
   methods: {
+    handleRemove: function handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview: function handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
     submitForm: function submitForm(formName) {
       this.$refs[formName].validate(function (valid) {
         if (valid) {
@@ -3761,11 +3803,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var fl = document.getElementsByClassName("formlist");
-    console.log(fl);
-
-    for (var i = 0; i < fl.length; i++) {//logfl[i]
-    }
+    var iu = document.getElementById("imageupload");
+    var w = window.innerWidth;
+    console.log(w);
+    var m = 0.8 * (w - 180) / 2;
+    console.log(m);
+    var str = "";
+    str += m;
+    str += "px";
+    iu.style.marginRight = str;
   }
 });
 
@@ -5644,7 +5690,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@font-face {\n\tfont-family: IRANSans;\n\tsrc: url('/js/font/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),\n\turl('/js/font/IRANSansWeb(FaNum).woff') format('font-woff'),\n\turl('/js/font/IRANSansWeb(FaNum).woff2') format('woff2'),\n\turl('/js/font/IRANSansWeb(FaNum).ttf') format('truetype')\n}\n#circle2{\n  display: none;\n}\n.check {\n  height: 50px;\n}\n#register-btn {\n\n    width: calc(355px*0.9);\n    height: calc(57px*0.9);\n    margin-top: 45%;\n    background-color: #ECF0F8;\n    position: relative;\n    display: table;\n    border: none;\n    border-radius: 15px;\n    -moz-border-radius: 15px;\n    -webkit-border-radius: 15px;\n    outline: none;\n}\n#register-btn svg {\n  width: 100%;\n    height: 100%;\n    position: absolute;\n    right: 0;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%);\n    border-radius: 15px;\n    -moz-border-radius: 15px;\n    -webkit-border-radius: 15px;\n    box-shadow: 0px 18px 21px rgba(171, 175, 195, 0.4);\n    overflow: hidden;\n}\n#register-btn span {\n    position: absolute;\n    right: 50%;\n    top: 50%;\n    -webkit-transform: translate(50%,-50%);\n            transform: translate(50%,-50%);\n    z-index: 1;\n    font-family: iransans;\n    font-size: 20px;\n    font-weight: bold;\n    line-height: 8.55px;\n    color: #FFFFFF;\n}\n.cls-2,.cls-3{opacity:0.7;}\n.cls-1{fill:#c1c5d7;}\n.cls-2{fill:#d6daea;}\n.cls-3{fill:#acb0c4;}\n#inputcheck{\n  -webkit-appearance: none;\n    z-index: -1;\n    position: absolute;\n    top: -6px;\n    right: -8px;\n    display: block;\n    margin-top: 0;\n    border-radius: 50%;\n    width: 40px;\n    height: 40px;\n    background-color: rgba( 0, 0, 0, 0.6);\n    box-shadow: none;\n    outline: none;\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    pointer-events: none;\n    -webkit-transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s, -webkit-transform 0.2s;\n}\n.circle{\n  z-index: 0;\n  display: inline-block;\n  position: absolute;\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  background-color: rgba(204, 204, 204, 0.6);\n  top: -24%;\n  right: 7%;\n}\n/* The container */\n/* Customize the label (the container) */\n.container {\n  margin-right: 10%;\n  margin-top: 25%;\n  margin-bottom: 15%;\n  display: block;\n  position: relative;\n  text-align: center;\n  margin-bottom: 12px;\n  cursor: pointer;\n  font-size: 16px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n/* Hide the browser's default checkbox */\n.container input {\n  -webkit-appearance: none;\n    z-index: -1;\n    display: block;\n    margin: 0;\n  position: absolute;\n  opacity: 0;\n  cursor: pointer;\n  border-radius: 50%;\n    width: 40px;\n    height: 40px;\n    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);\n    box-shadow: none;\n    outline: none;\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    pointer-events: none;\n    -webkit-transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s, -webkit-transform 0.2s;\n}\n\n\n/* Create a custom checkbox */\n.checkmark {\n  position: absolute;\n  margin-top: 10px;\n  top: 11%;\n  right: 2%;\n  height: 14px;\n  width: 14px;\n  border: solid 2px;\n  border-color: rgba( 0, 0, 0, 0.6);\n  border-radius: 2px;\n}\n.container p{\n  margin: 0;\n  margin-top: 6px;\n  position: absolute;\n  top: 11%;\n  right: 9%;\n  height: 30px;\n}\n\n\n/* On mouse-over, add a grey background color */\n.container:hover input ~ .checkmark {\n\n  background-color: #ccc;\n}\n\n/* When the checkbox is checked, add a blue background */\n.container input:checked ~ .checkmark {\n  background-color: #2196F3;\n}\n.circle2 input:checked{\n  background-color: #2196F3;\n}\n\n/* Create the checkmark/indicator (hidden when not checked) */\n.checkmark:after {\n  content: \"\";\n  position: absolute;\n  display: none;\n}\n\n/* Show the checkmark when checked */\n.container input:checked ~ .checkmark:after {\n  display: block;\n}\n\n/* Style the checkmark/indicator */\n.container .checkmark:after {\n  left: 4px;\n  top: 0px;\n  width: 4px;\n  height: 8px;\n  border: solid white;\n  border-width: 0 2px 2px 0;\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n}\n.conditions{\n  width: 100%;\n    position: relative;\n    margin-bottom: 32px;\n    padding-top: 24px;\n    background: #FFFFFF;\n    border-radius: 35px 35px 0 0;\n    box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);\n    font-size: 14px;\n    line-height: 24.55px;\n    color: #1B1B41;\n}\n.conditions p {\n    width: 100%;\n    height: 184px;\n    padding: 0px 24px 50px 24px;\n    margin: 0;\n    overflow: auto;\n    box-sizing: border-box;\n    white-space: pre-line;\n}\n.dl {\n    width: 100%;\n    height: 64px;\n    position: absolute;\n    bottom: 0;\n    -webkit-transform: translateY(50%);\n            transform: translateY(50%);\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    background: #FFFFFF;\n    border-radius: 20px;\n    -moz-border-radius: 20px;\n    -webkit-border-radius: 20px;\n    box-shadow: 1px 1px 5px rgba(38, 38, 113, 0.18);\n    text-decoration: none;\n    -webkit-tap-highlight-color: rgba(0,0,0,0);\n    -webkit-tap-highlight-color: transparent;\n}\n.right {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n}\n.right .icon-box {\n    width: 46px;\n    height: 46px;\n    margin: 0 10px;\n    background-color: #ECF0F8;\n    background-image: url(\"/assets/images/pdf.png\");\n    background-size: 60%;\n    background-position: center;\n    background-repeat: no-repeat;\n    border-radius: 16px;\n    -moz-border-radius: 16px;\n    -webkit-border-radius: 16px;\n}\n.right h2 {\n    font-size: 14px;\n    line-height: 8.55px;\n    color: #1B1B41;\n}\n.dl .left {\n      width: 64px;\n      height: 64px;\n      position: relative;\n      border-radius: 40px 65px 65px 40px;\n      -moz-border-radius: 40px 65px 65px 40px;\n      -webkit-border-radius: 40px 65px 65px 40px;\n      background: rgba(230, 57, 70, 0.05);\n      background-image: url(\"/assets/images/dl.png\");\n      background-repeat: no-repeat;\n      background-position: center;\n      background-size: 16px;\n}\n.el-card__header{\n}\n.el-card{\n  padding-top: 1%;\n  border: 1px solid #FFF;\n      border-radius: 35px !important;\n}\n.images{\n  margin: 5% 2.5%;\n  border-radius: 20px;\n  box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);\n}\n.accept{\n    width: 100vw;\n    position: relative;\n    padding: 20px 24px 24px 24px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    font-family: IRANSans;\n    direction: rtl;\n    box-sizing: border-box;\n  direction: rtl;\n}\n.back{\n  margin: -26px;\n}\n.back-1 {\n  cursor: pointer;\n  fill:none;stroke:#d6daea;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;\n}\n.clearfix{\n    display: block;\n    width: 100vw;\n    text-align: center;\n}\n#accepttitle{\n  font-size: 14px;\n  display: inline-block;\n  font-weight: bold;\n  text-align: center;\n  width: 60%;\n}\n#background{\n  width: 100vw;\n}\nbody { margin: 0;\n    background-color: #ECF0F8;\n}\n", ""]);
+exports.push([module.i, "\n@font-face {\n\tfont-family: IRANSans;\n\tsrc: url('/js/font/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),\n\turl('/js/font/IRANSansWeb(FaNum).woff') format('font-woff'),\n\turl('/js/font/IRANSansWeb(FaNum).woff2') format('woff2'),\n\turl('/js/font/IRANSansWeb(FaNum).ttf') format('truetype')\n}\n#circle2{\n  display: none;\n}\n.check {\n  height: 50px;\n}\n#register-btn {\n\n    width: 319px;\n    height: 51px;\n    margin-top: 45%;\n    background-color: #ECF0F8;\n    position: relative;\n    display: table;\n    border: none;\n    border-radius: 15px;\n    -moz-border-radius: 15px;\n    -webkit-border-radius: 15px;\n    outline: none;\n}\n#register-btn svg {\n  width: 100%;\n    height: 100%;\n    position: absolute;\n    right: 0;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%);\n    border-radius: 15px;\n    -moz-border-radius: 15px;\n    -webkit-border-radius: 15px;\n    box-shadow: 0px 18px 21px rgba(171, 175, 195, 0.4);\n    overflow: hidden;\n}\n#register-btn span {\n    position: absolute;\n    right: 50%;\n    top: 50%;\n    -webkit-transform: translate(50%,-50%);\n            transform: translate(50%,-50%);\n    z-index: 1;\n    font-family: iransans;\n    font-size: 20px;\n    font-weight: bold;\n    line-height: 8.55px;\n    color: #FFFFFF;\n}\n.cls-2,.cls-3{opacity:0.7;}\n.cls-1{fill:#c1c5d7;}\n.cls-2{fill:#d6daea;}\n.cls-3{fill:#acb0c4;}\n#inputcheck{\n  -webkit-appearance: none;\n    z-index: -1;\n    position: absolute;\n    top: -6px;\n    right: -8px;\n    display: block;\n    margin-top: 0;\n    border-radius: 50%;\n    width: 40px;\n    height: 40px;\n    background-color: rgba( 0, 0, 0, 0.6);\n    box-shadow: none;\n    outline: none;\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    pointer-events: none;\n    -webkit-transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s, -webkit-transform 0.2s;\n}\n.circle{\n  z-index: 0;\n  display: inline-block;\n  position: absolute;\n  height: 40px;\n  width: 40px;\n  border-radius: 50%;\n  background-color: rgba(204, 204, 204, 0.6);\n  top: -24%;\n  right: 7%;\n}\n/* The container */\n/* Customize the label (the container) */\n.container {\n  margin-right: 10%;\n  margin-top: 25%;\n  margin-bottom: 15%;\n  display: block;\n  position: relative;\n  text-align: center;\n  margin-bottom: 12px;\n  cursor: pointer;\n  font-size: 16px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n/* Hide the browser's default checkbox */\n.container input {\n  -webkit-appearance: none;\n    z-index: -1;\n    display: block;\n    margin: 0;\n  position: absolute;\n  opacity: 0;\n  cursor: pointer;\n  border-radius: 50%;\n    width: 40px;\n    height: 40px;\n    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);\n    box-shadow: none;\n    outline: none;\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    pointer-events: none;\n    -webkit-transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, -webkit-transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s;\n    transition: opacity 0.3s, transform 0.2s, -webkit-transform 0.2s;\n}\n\n\n/* Create a custom checkbox */\n.checkmark {\n  position: absolute;\n  margin-top: 10px;\n  top: 11%;\n  right: 2%;\n  height: 14px;\n  width: 14px;\n  border: solid 2px;\n  border-color: rgba( 0, 0, 0, 0.6);\n  border-radius: 2px;\n}\n.container p{\n  margin: 0;\n  margin-top: 6px;\n  position: absolute;\n  top: 11%;\n  right: 9%;\n  height: 30px;\n}\n\n\n/* On mouse-over, add a grey background color */\n.container:hover input ~ .checkmark {\n\n  background-color: #ccc;\n}\n\n/* When the checkbox is checked, add a blue background */\n.container input:checked ~ .checkmark {\n  background-color: #2196F3;\n}\n.circle2 input:checked{\n  background-color: #2196F3;\n}\n\n/* Create the checkmark/indicator (hidden when not checked) */\n.checkmark:after {\n  content: \"\";\n  position: absolute;\n  display: none;\n}\n\n/* Show the checkmark when checked */\n.container input:checked ~ .checkmark:after {\n  display: block;\n}\n\n/* Style the checkmark/indicator */\n.container .checkmark:after {\n  left: 4px;\n  top: 0px;\n  width: 4px;\n  height: 8px;\n  border: solid white;\n  border-width: 0 2px 2px 0;\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n}\n.conditions{\n  width: 100%;\n    position: relative;\n    margin-bottom: 32px;\n    padding-top: 24px;\n    background: #FFFFFF;\n    border-radius: 35px 35px 0 0;\n    box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);\n    font-size: 14px;\n    line-height: 24.55px;\n    color: #1B1B41;\n}\n.conditions p {\n    width: 100%;\n    height: 184px;\n    padding: 0px 24px 50px 24px;\n    margin: 0;\n    overflow: auto;\n    box-sizing: border-box;\n    white-space: pre-line;\n}\n.dl {\n    width: 100%;\n    height: 64px;\n    position: absolute;\n    bottom: 0;\n    -webkit-transform: translateY(50%);\n            transform: translateY(50%);\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    background: #FFFFFF;\n    border-radius: 20px;\n    -moz-border-radius: 20px;\n    -webkit-border-radius: 20px;\n    box-shadow: 1px 1px 5px rgba(38, 38, 113, 0.18);\n    text-decoration: none;\n    -webkit-tap-highlight-color: rgba(0,0,0,0);\n    -webkit-tap-highlight-color: transparent;\n}\n.right {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n}\n.right .icon-box {\n    width: 46px;\n    height: 46px;\n    margin: 0 10px;\n    background-color: #ECF0F8;\n    background-image: url(\"/assets/images/pdf.png\");\n    background-size: 60%;\n    background-position: center;\n    background-repeat: no-repeat;\n    border-radius: 16px;\n    -moz-border-radius: 16px;\n    -webkit-border-radius: 16px;\n}\n.right h2 {\n    font-size: 14px;\n    line-height: 8.55px;\n    color: #1B1B41;\n}\n.dl .left {\n      width: 64px;\n      height: 64px;\n      position: relative;\n      border-radius: 40px 65px 65px 40px;\n      -moz-border-radius: 40px 65px 65px 40px;\n      -webkit-border-radius: 40px 65px 65px 40px;\n      background: rgba(230, 57, 70, 0.05);\n      background-image: url(\"/assets/images/dl.png\");\n      background-repeat: no-repeat;\n      background-position: center;\n      background-size: 16px;\n}\n.el-card__header{\n}\n.el-card{\n  padding-top: 1%;\n  border: 1px solid #FFF;\n      border-radius: 35px !important;\n}\n.images{\n  margin: 5% 2.5%;\n  border-radius: 20px;\n  box-shadow: 1px 2px 2px rgba(38, 38, 113, 0.1);\n}\n.accept{\n    width: 100vw;\n    position: relative;\n    padding: 20px 24px 24px 24px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    font-family: IRANSans;\n    direction: rtl;\n    box-sizing: border-box;\n  direction: rtl;\n}\n.back{\n  margin: -26px;\n}\n.back-1 {\n  cursor: pointer;\n  fill:none;stroke:#d6daea;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;\n}\n.clearfix{\n    display: block;\n    width: 100vw;\n    text-align: center;\n}\n#accepttitle{\n  font-size: 14px;\n  display: inline-block;\n  font-weight: bold;\n  text-align: center;\n  width: 60%;\n}\n#background{\n  width: 100vw;\n}\nbody { margin: 0;\n    background-color: #ECF0F8;\n}\n", ""]);
 
 // exports
 
@@ -5663,7 +5709,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@font-face {\n\tfont-family: IRANSans;\n\tsrc: url('/js/font/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),\n\turl('/js/font/IRANSansWeb(FaNum).woff') format('font-woff'),\n\turl('/js/font/IRANSansWeb(FaNum).woff2') format('woff2'),\n\turl('/js/font/IRANSansWeb(FaNum).ttf') format('truetype')\n}\n.insuranceForm{\n  direction: rtl;\n  margin: 5%;\n  text-align: center;\n}\n\n", ""]);
+exports.push([module.i, "\n@font-face {\n\tfont-family: IRANSans;\n\tsrc: url('/js/font/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'),\n\turl('/js/font/IRANSansWeb(FaNum).woff') format('font-woff'),\n\turl('/js/font/IRANSansWeb(FaNum).woff2') format('woff2'),\n\turl('/js/font/IRANSansWeb(FaNum).ttf') format('truetype')\n}\n.insuranceCaseHeader {\n    padding: 0!important;\n    font-size: 14px!important;\n    width: 100%;\n    height: 50px;\n    position: fixed;\n    top: 0;\n    right: 0;\n    z-index: 1;\n    background: #3b8bff;\n    color: #fff;\n    display: -webkit-box!important;\n    display: flex!important;\n    -webkit-box-pack: justify;\n    justify-content: space-between;\n    box-sizing: border-box;\n    -webkit-box-align: center;\n    align-items: center;\n}\n.insuranceCaseHeader >h3{\n  padding-right: 10px;\n}\n.el-form{\n  margin-top: 70px;\n}\n#send{\n  margin-right: 5%;\n  width: 90%;\n  height: 40px;\n  font-size: 16px;\n  font-weight: bold;\n  color: white;\n  font-family: iransans;\n  background-color: #409EFF;\n  position: relative;\n  display: table;\n  border: none;\n  border-radius: 5px;\n}\n.insuranceForm{\n  font-family: iransans;\n  direction: rtl;\n  margin: 5%;\n  text-align: center;\n}\n.el-form-item {\n\n  margin-top: 5% !important;\n}\n.el-input{\n  width: 70% !important;\n}\n.formlist label{\n  width: 30% !important;\n  float: right !important;\n  text-align: right !important;\n  text-align: right !important;\n  vertical-align: right !important;\n}\n.el-upload{\n  width: 100%;\n  background-image: url('/assets/images/national-card-icon.svg');\n  background-position: center; /* Center the image */\n  background-repeat: no-repeat; /* Do not repeat the image */\n  background-size: contain;\n  padding-left: 5%;\n  padding-right: 5%;\n  background-color: white !important;\n  border: 0px !important;\n}\n.up{\n  display: inline-block;\n  height: 17%;\n  width: 100%;\n  color: white;\n  background-color: #ffa64d;\n}\n.down{\n  display: inline-block;\n  height: 17%;\n  width: 100%;\n  color: white;\n  background-color: #ff4081;\n}\n.up >p{\n  margin: 0;\n}\n.down >p{\n  margin: 0;\n}\n#imageupload{\n  height: 200px;\n  margin-bottom: 10%;\n  border-radius: 1px;\n  border: 1px;\n  background-color: white;\n  box-shadow: 0 0 6px #cacaca;\n    border: 1px solid #d8d8d8;\n    cursor: pointer;\n  width: 180px;\n  text-align: center;\n  vertical-align: middle;\n}\n", ""]);
 
 // exports
 
@@ -82536,7 +82582,7 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _c("span", { staticClass: "checkmark" }),
+        _c("span", { staticClass: "checkmark", attrs: { id: "setcircle" } }),
         _vm._v(" "),
         _c("p", [
           _vm._v(
@@ -82653,6 +82699,51 @@ var render = function() {
         }
       }),
       _vm._v(" "),
+      _c("div", { staticClass: "insuranceCaseHeader" }, [
+        _c("h3", [_vm._v("اطلاعات بیمه نامه و بیمه گذار")]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "back",
+            staticStyle: { padding: "27px" },
+            attrs: { href: "index.html" }
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticStyle: {
+                  float: "left",
+                  padding: "15px 15px",
+                  width: "24px",
+                  color: "-webkit-link"
+                },
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 26 17"
+                }
+              },
+              [
+                _c("g", { attrs: { id: "back_2", "data-name": "back 2" } }, [
+                  _c("g", { attrs: { id: "back-2", "data-name": "back" } }, [
+                    _c("polyline", {
+                      staticClass: "back-1",
+                      attrs: { points: "8.48 1 1 8.48 8.52 16" }
+                    }),
+                    _vm._v(" "),
+                    _c("line", {
+                      staticClass: "back-1",
+                      attrs: { x1: "1", y1: "8.5", x2: "25", y2: "8.5" }
+                    })
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
       _c(
         "el-form",
         {
@@ -82661,7 +82752,8 @@ var render = function() {
           attrs: {
             model: _vm.ruleForm,
             rules: _vm.rules,
-            "label-width": "120px"
+            "label-width": "120px",
+            "label-position": "top"
           }
         },
         [
@@ -82669,8 +82761,25 @@ var render = function() {
             "el-form-item",
             {
               staticClass: "formlist",
-              attrs: { "label-position": "left", prop: "name", label: "کد ملی" }
+              attrs: { prop: "idCard", label: "کد ملی" }
             },
+            [
+              _c("el-input", {
+                model: {
+                  value: _vm.ruleForm.idCard,
+                  callback: function($$v) {
+                    _vm.$set(_vm.ruleForm, "idCard", $$v)
+                  },
+                  expression: "ruleForm.idCard"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            { staticClass: "formlist", attrs: { prop: "name", label: "نام" } },
             [
               _c("el-input", {
                 model: {
@@ -82689,21 +82798,16 @@ var render = function() {
             "el-form-item",
             {
               staticClass: "formlist",
-              attrs: {
-                "label-position": "top",
-                "label-width": "",
-                prop: "name",
-                label: "نام"
-              }
+              attrs: { prop: "familyname", label: "نام خانوادگی" }
             },
             [
               _c("el-input", {
                 model: {
-                  value: _vm.ruleForm.name,
+                  value: _vm.ruleForm.familyname,
                   callback: function($$v) {
-                    _vm.$set(_vm.ruleForm, "name", $$v)
+                    _vm.$set(_vm.ruleForm, "familyname", $$v)
                   },
-                  expression: "ruleForm.name"
+                  expression: "ruleForm.familyname"
                 }
               })
             ],
@@ -82714,21 +82818,16 @@ var render = function() {
             "el-form-item",
             {
               staticClass: "formlist",
-              attrs: {
-                "label-position": "top",
-                "label-width": "",
-                prop: "name",
-                label: "نام خانوادگی"
-              }
+              attrs: { prop: "cellphone", label: "تلفن همراه" }
             },
             [
               _c("el-input", {
                 model: {
-                  value: _vm.ruleForm.name,
+                  value: _vm.ruleForm.cellphone,
                   callback: function($$v) {
-                    _vm.$set(_vm.ruleForm, "name", $$v)
+                    _vm.$set(_vm.ruleForm, "cellphone", $$v)
                   },
-                  expression: "ruleForm.name"
+                  expression: "ruleForm.cellphone"
                 }
               })
             ],
@@ -82739,21 +82838,16 @@ var render = function() {
             "el-form-item",
             {
               staticClass: "formlist",
-              attrs: {
-                "label-position": "top",
-                "label-width": "",
-                prop: "name",
-                label: "تلفن همراه"
-              }
+              attrs: { prop: "phone", label: "تلفن ثابت" }
             },
             [
               _c("el-input", {
                 model: {
-                  value: _vm.ruleForm.name,
+                  value: _vm.ruleForm.phone,
                   callback: function($$v) {
-                    _vm.$set(_vm.ruleForm, "name", $$v)
+                    _vm.$set(_vm.ruleForm, "phone", $$v)
                   },
-                  expression: "ruleForm.name"
+                  expression: "ruleForm.phone"
                 }
               })
             ],
@@ -82764,21 +82858,16 @@ var render = function() {
             "el-form-item",
             {
               staticClass: "formlist",
-              attrs: {
-                "label-position": "top",
-                "label-width": "",
-                prop: "name",
-                label: "تلفن ثابت"
-              }
+              attrs: { prop: "postalcode", label: "کد پستی" }
             },
             [
               _c("el-input", {
                 model: {
-                  value: _vm.ruleForm.name,
+                  value: _vm.ruleForm.postalcode,
                   callback: function($$v) {
-                    _vm.$set(_vm.ruleForm, "name", $$v)
+                    _vm.$set(_vm.ruleForm, "postalcode", $$v)
                   },
-                  expression: "ruleForm.name"
+                  expression: "ruleForm.postalcode"
                 }
               })
             ],
@@ -82789,21 +82878,16 @@ var render = function() {
             "el-form-item",
             {
               staticClass: "formlist",
-              attrs: {
-                "label-position": "top",
-                "label-width": "",
-                prop: "name",
-                label: "کد پستی"
-              }
+              attrs: { prop: "address", label: "نشانی" }
             },
             [
               _c("el-input", {
                 model: {
-                  value: _vm.ruleForm.name,
+                  value: _vm.ruleForm.address,
                   callback: function($$v) {
-                    _vm.$set(_vm.ruleForm, "name", $$v)
+                    _vm.$set(_vm.ruleForm, "address", $$v)
                   },
-                  expression: "ruleForm.name"
+                  expression: "ruleForm.address"
                 }
               })
             ],
@@ -82811,60 +82895,65 @@ var render = function() {
           ),
           _vm._v(" "),
           _c(
-            "el-form-item",
-            {
-              staticClass: "formlist",
-              attrs: {
-                "label-position": "top",
-                "label-width": "",
-                prop: "name",
-                label: "نشانی"
-              }
-            },
+            "div",
+            { attrs: { id: "imageupload" } },
             [
-              _c("el-input", {
-                model: {
-                  value: _vm.ruleForm.name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.ruleForm, "name", $$v)
-                  },
-                  expression: "ruleForm.name"
+              _c("div", { staticClass: "up" }, [
+                _c("p", [_vm._v("  بارگذاری تصویر کارت ملی  ")])
+              ]),
+              _vm._v(" "),
+              _c("el-upload", {
+                attrs: {
+                  action: "https://jsonplaceholder.typicode.com/posts/",
+                  "list-type": "picture-card",
+                  "on-preview": _vm.handlePictureCardPreview,
+                  "on-remove": _vm.handleRemove
                 }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "el-form-item",
-            [
-              _c(
-                "el-button",
-                {
-                  attrs: { type: "primary" },
-                  on: {
-                    click: function($event) {
-                      return _vm.submitForm("ruleForm")
-                    }
-                  }
-                },
-                [_vm._v("Create")]
-              ),
+              }),
               _vm._v(" "),
               _c(
-                "el-button",
+                "el-dialog",
                 {
+                  attrs: { visible: _vm.dialogVisible },
                   on: {
-                    click: function($event) {
-                      return _vm.resetForm("ruleForm")
+                    "update:visible": function($event) {
+                      _vm.dialogVisible = $event
                     }
                   }
                 },
-                [_vm._v("Reset")]
-              )
+                [
+                  _c("img", {
+                    attrs: { width: "100%", src: _vm.dialogImageUrl, alt: "" }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "down" }, [
+                _c("p", [_vm._v(" انتخاب فایل")])
+              ])
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("el-form-item", [
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.submitForm("ruleForm")
+                  }
+                }
+              },
+              [
+                _c(
+                  "button",
+                  { attrs: { id: "send", type: "submit", name: "button" } },
+                  [_vm._v("  ارسال")]
+                )
+              ]
+            )
+          ])
         ],
         1
       )
@@ -100932,15 +101021,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!********************************************!*\
   !*** ./resources/js/components/accept.vue ***!
   \********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _accept_vue_vue_type_template_id_8ae879da___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./accept.vue?vue&type=template&id=8ae879da& */ "./resources/js/components/accept.vue?vue&type=template&id=8ae879da&");
 /* harmony import */ var _accept_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./accept.vue?vue&type=script&lang=js& */ "./resources/js/components/accept.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _accept_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _accept_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _accept_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./accept.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/accept.vue?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _accept_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./accept.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/accept.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -100972,7 +101060,7 @@ component.options.__file = "resources/js/components/accept.vue"
 /*!*********************************************************************!*\
   !*** ./resources/js/components/accept.vue?vue&type=script&lang=js& ***!
   \*********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

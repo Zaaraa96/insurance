@@ -103,7 +103,7 @@
           <label id="circle" class="container">
             <div id="circle2"></div>
             <input v-model="checked" id="inputcheck" @click="changeSubmit" type="checkbox">
-            <span class="checkmark">
+            <span class="checkmark" id="setcircle">
             </span>
             <p>
               شرایط قرارداد مطالعه نموده و می پذیرم
@@ -150,7 +150,7 @@ export default {
       d.style.borderRadius= "50%";
       d.style.transition="1s";
       d.style.position= "absolute";
-      d.style.right= "-1%";
+      d.style.right= "-1.5%";
       circle1.appendChild(d);
 
       let circle2= document.getElementById("circle2");
@@ -161,7 +161,7 @@ export default {
         d.style.backgroundColor= 'rgb(0, 183, 183)';
       }
 
-      d.style.opacity= "0.2";
+      d.style.opacity= "0.1";
       sleep(1000).then(() => {
             d.style.opacity= '0';
        });
@@ -196,7 +196,6 @@ export default {
       if (this.checked) {
         bg.removeAttribute("href");
         bg.style.cursor="auto";
-        console.log(bg.style.cursor);
         bg.style.boxShadow=  "0px 18px 21px rgba(171, 175, 195, 0.4)";
           c1[0].style.fill= "#c1c5d7";
           c2[0].style.fill="#d6daea";
@@ -206,7 +205,6 @@ export default {
         //console.log(bg);
         bg.href= ref;
         bg.style.cursor="pointer";
-        console.log(bg.style.cursor);
         bg.style.boxShadow=  "0px 18px 21px rgba(0, 183, 183, 0.4)";
         c1[0].style.fill= "#00b7b7";
         c2[0].style.fill= "#00b2ad";
@@ -228,7 +226,7 @@ export default {
    //url ends with id="idNum" if we suppose we are user with id=1; probably we should get it from localstorage
    this.id= '1';
 
-   console.log(window.innerWidth);
+   //console.log(window.innerWidth);
    if(window.innerWidth> 430)
    {
      let bg = document.getElementById("register-btn");
@@ -236,7 +234,7 @@ export default {
      let str= "";
      str+= s;
      str+="px";
-     console.log(str);
+     //console.log(str);
      bg.style.marginRight= str;
    }else if (window.innerWidth> 370) {
      let bg = document.getElementById("register-btn");
@@ -244,7 +242,7 @@ export default {
      let str= "";
      str+= s;
      str+="px";
-     console.log(str);
+     //console.log(str);
      bg.style.marginRight= str;
    }
  }
@@ -269,8 +267,8 @@ export default {
 }
 #register-btn {
 
-    width: calc(355px*0.9);
-    height: calc(57px*0.9);
+    width: 319px;
+    height: 51px;
     margin-top: 45%;
     background-color: #ECF0F8;
     position: relative;
